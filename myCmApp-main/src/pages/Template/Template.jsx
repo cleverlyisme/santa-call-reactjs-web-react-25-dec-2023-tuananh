@@ -10,7 +10,7 @@ import axios from "axios";
 function Template() {
   const [searchKey, setSearchKey] = useState("");
   const [videos, setVideos] = useState([]);
-  // const [imgaes, setImages] = useState([]);
+  const [images, setImages] = useState([]);
   const [custome, setCustome] = useState("images");
   const [hoveredCustome, setHoveredCustome] = useState(null);
 
@@ -21,10 +21,14 @@ function Template() {
   const getTemplates = async () => {
     try {
       let respone = await axios.get(
-        "https://metatechvn.store/lovehistory/video/1"
+        custome === "images"
+          ? "https://metatechvn.store/lovehistory/video/1"
+          : "https://metatechvn.store/lovehistory/video/1"
       );
       if (respone) {
-        setVideos(respone.data?.list_sukien_video[5].sukien_video);
+        custome === "images"
+          ? setImages(respone.data?.list_sukien_video[5].sukien_video)
+          : setVideos(respone.data?.list_sukien_video[5].sukien_video);
         console.log("respose:", respone);
       } else {
         console.log("no response");
@@ -126,7 +130,7 @@ function Template() {
             </div>
             <div>
               <div className="template">
-                {videos.map((item, index) => {
+                {images.map((item, index) => {
                   console.log(item.link_image);
                   return (
                     <div key={index} className="">
