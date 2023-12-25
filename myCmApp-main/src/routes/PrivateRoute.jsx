@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import { useSelector } from "react-redux";
-import { Navigate } from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
 
 const PrivateRoute = ({ children }) => {
   const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
@@ -10,7 +10,7 @@ const PrivateRoute = ({ children }) => {
     return <Navigate to={"/signin"} />;
   }
 
-  return <>{children}</>;
+  return children || <Outlet />;
 };
 
 export default PrivateRoute;
