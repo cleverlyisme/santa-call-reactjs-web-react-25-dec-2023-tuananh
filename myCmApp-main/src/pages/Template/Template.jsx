@@ -12,6 +12,7 @@ function Template() {
   const [videos, setVideos] = useState([]);
   // const [imgaes, setImages] = useState([]);
   const [custome, setCustome] = useState("images");
+  const [hoveredCustome, setHoveredCustome] = useState(null);
 
   const handleSearch = () => {
     console.log(searchKey);
@@ -54,13 +55,49 @@ function Template() {
       </div>
 
       <div className="custome">
-        <div className={`images ${custome === "images" ? "active" : null}`}>
-          <img src={custome === "images" ? galaryIconActive : galaryIcon} />
-          <button onClick={() => setCustome("images")}>Images</button>
+        <div
+          className={`images-custome ${
+            custome === "images" || hoveredCustome === "images"
+              ? "bg-red-400 text-rose-100"
+              : "bg-white text-red-400"
+          }`}
+        >
+          <img
+            src={
+              custome === "images" || hoveredCustome === "images"
+                ? galaryIconActive
+                : galaryIcon
+            }
+          />
+          <button
+            onClick={() => setCustome("images")}
+            onMouseEnter={() => setHoveredCustome("images")}
+            onMouseLeave={() => setHoveredCustome(null)}
+          >
+            Images
+          </button>
         </div>
-        <div className={`videos ${custome === "videos" ? "active" : null}`}>
-          <img src={custome === "videos" ? videoIconActive : videoIcon} />
-          <button onClick={() => setCustome("videos")}>Videos</button>
+        <div
+          className={`videos-custome ${
+            custome === "videos" || hoveredCustome === "videos"
+              ? "bg-red-400 text-rose-100"
+              : "bg-white text-red-400"
+          }`}
+        >
+          <img
+            src={
+              custome === "videos" || hoveredCustome === "videos"
+                ? videoIconActive
+                : videoIcon
+            }
+          />
+          <button
+            onClick={() => setCustome("videos")}
+            onMouseEnter={() => setHoveredCustome("videos")}
+            onMouseLeave={() => setHoveredCustome(null)}
+          >
+            Videos
+          </button>
         </div>
       </div>
       <div className="templates">

@@ -25,12 +25,10 @@
     gap: 15px;
     margin-top: 70px;
 
-    .images,
-    .videos {
+    .images-custome,
+    .videos-custome {
       display: flex;
       gap: 5px;
-      color: #f23635;
-      background: #ffffff;
       padding: 15px;
       border-radius: 10px;
 
@@ -39,10 +37,12 @@
         height: 24px;
       }
     }
-    .active {
+    /* .active,
+    .images:hover,
+    .videos:hover {
       background: #f23635;
       color: #fff;
-    }
+    } */
   }
 
   .templates {
