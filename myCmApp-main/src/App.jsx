@@ -6,7 +6,7 @@ import SwapFace from "./pages/SwapFace/SwapFace";
 function App() {
   return (
     <>
-      <div className="w-screen min-h-screen bg-app">
+      <div className="max-w-screen min-h-screen bg-app">
         <div className="flex w-full gap-10 px-5 py-5">
           <div className="sidebar-container">
             <SideBar />

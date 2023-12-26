@@ -2,7 +2,6 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import SantaClaus from "../../assets/santa-claus.png";
 import GoogleLogo from "../../assets/LogoGoogle.svg";
-import FacebookLogo from "../../assets/LogoFacebook.svg";
 import BgAuth from "../../assets/bg-auth.png";
 import EyeIcon from "../../assets/EyeIcon.svg";
 import NProgress from "nprogress";
@@ -14,7 +13,7 @@ import { doLogin } from "../../redux/action/userAction";
 function SignIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [isShowPassword, setIsShowPassword] = useState(false)
+  const [isShowPassword, setIsShowPassword] = useState(false);
 
   const navigate = useNavigate();
 
@@ -50,7 +49,7 @@ function SignIn() {
         dispatch(doLogin(response.data));
         console.log(response.data);
         toast.success("Login success");
-        localStorage.setItem('image', response.data.link_avatar)
+        localStorage.setItem("image", response.data.link_avatar);
         navigate("/");
       }
     } catch (error) {
@@ -61,8 +60,8 @@ function SignIn() {
   };
 
   const handleShowPassword = () => {
-    setIsShowPassword(!isShowPassword)
-  }
+    setIsShowPassword(!isShowPassword);
+  };
 
   return (
     <>
@@ -90,20 +89,12 @@ function SignIn() {
                   Sign up
                 </Link>
               </div>
-              <div className="flex justify-between gap-3.5 mt-12 max-md:flex-wrap max-md:mt-10">
+              <div className="flex justify-center gap-3.5 mt-12 max-md:flex-wrap max-md:mt-10">
                 <button className="border border-[color:var(--5,#E6E8EC)] bg-white p-5 rounded-lg">
                   <div className="flex items-center justify-between gap-3">
                     <img loading="lazy" src={GoogleLogo} alt="" />
                     <div className="text-base font-medium text-gray-900">
                       Sign in with Google
-                    </div>
-                  </div>
-                </button>
-                <button className="p-5 bg-blue-500 rounded-lg">
-                  <div className="flex items-center justify-between gap-3">
-                    <img loading="lazy" src={FacebookLogo} alt="" />
-                    <div className="text-base font-medium text-white">
-                      Sign in with Facebook
                     </div>
                   </div>
                 </button>
@@ -134,8 +125,7 @@ function SignIn() {
                     Password
                   </div>
                   <div className="relative">
-
-                    {isShowPassword == false ?
+                    {isShowPassword == false ? (
                       <>
                         <input
                           type="password"
@@ -152,7 +142,7 @@ function SignIn() {
                           onClick={() => handleShowPassword()}
                         />
                       </>
-                      :
+                    ) : (
                       <>
                         <input
                           type="text"
@@ -169,9 +159,7 @@ function SignIn() {
                           onClick={() => handleShowPassword()}
                         />
                       </>
-                    }
-
-
+                    )}
                   </div>
                 </div>
 
