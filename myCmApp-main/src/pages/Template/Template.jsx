@@ -13,6 +13,7 @@ function Template() {
   const [images, setImages] = useState([]);
   const [custome, setCustome] = useState("images");
   const [hoveredCustome, setHoveredCustome] = useState(null);
+  const [openModal, setOpenModal] = useState(true);
 
   const handleSearch = () => {
     console.log(searchKey);
@@ -22,13 +23,13 @@ function Template() {
     try {
       let respone = await axios.get(
         custome === "images"
-          ? "https://metatechvn.store/lovehistory/video/1"
-          : "https://metatechvn.store/lovehistory/video/1"
+          ? "https://metatechvn.store/lovehistory/page/1?id_user=0"
+          : "https://metatechvn.store/lovehistory/page/1?id_user=0"
       );
       if (respone) {
         custome === "images"
-          ? setImages(respone.data?.list_sukien_video[5].sukien_video)
-          : setVideos(respone.data?.list_sukien_video[5].sukien_video);
+          ? setImages(respone.data?.list_sukien[5].sukien)
+          : setVideos(respone.data?.list_sukien[5].sukien);
         console.log("respose:", respone);
       } else {
         console.log("no response");
@@ -39,7 +40,7 @@ function Template() {
   };
   useEffect(() => {
     getTemplates();
-  }, []);
+  }, [custome]);
 
   return (
     <div className="home-container">
@@ -53,6 +54,8 @@ function Template() {
           <input
             type="text"
             value={searchKey}
+            placeholder="Search or type"
+            className="placeholder-gray-400 placeholder-opacity-75 text-sm"
             onChange={(event) => setSearchKey(event.target.value)}
           />
         </div>
@@ -104,19 +107,22 @@ function Template() {
           </button>
         </div>
       </div>
-      <div className="templates">
+      <div className="templates-container">
         {custome === "videos" ? (
           <>
             <div className="title">
               <span className="sp1">All videos templates</span>
             </div>
             <div>
-              <div className="template">
+              <div className="templates">
                 {videos.map((item, index) => {
-                  console.log(item.link_image);
+                  console.log({ item });
                   return (
-                    <div key={index} className="">
-                      <img src={item.link_image} style={{ width: "200px" }} />
+                    <div key={index} className="template relative">
+                      <img src={item.link_nam_goc} />
+                      <span className="absolute top-2 left-3 text-white text-xs font-medium">
+                        2:00 min
+                      </span>
                     </div>
                   );
                 })}
@@ -129,12 +135,11 @@ function Template() {
               <span className="sp1">All images templates</span>
             </div>
             <div>
-              <div className="template">
+              <div className="templates">
                 {images.map((item, index) => {
-                  console.log(item.link_image);
                   return (
-                    <div key={index} className="">
-                      <img src={item.link_image} style={{ width: "200px" }} />
+                    <div key={index} className="template">
+                      <img src={item.link_nam_goc} />
                     </div>
                   );
                 })}

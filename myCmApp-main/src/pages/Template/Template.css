@@ -23,7 +23,7 @@
   .custome {
     display: flex;
     gap: 15px;
-    margin-top: 70px;
+    margin-top: 50px;
 
     .images-custome,
     .videos-custome {
@@ -37,16 +37,13 @@
         height: 24px;
       }
     }
-    /* .active,
-    .images:hover,
-    .videos:hover {
-      background: #f23635;
-      color: #fff;
-    } */
   }
 
-  .templates {
+  .templates-container {
+    padding-right: 40px;
     margin-top: 30px;
+    max-height: 80vh;
+    overflow-y: scroll;
     .title {
       display: flex;
       flex-direction: column;
@@ -59,12 +56,18 @@
     }
   }
 
-  .template {
-    gap: 20px;
+  .templates {
     display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    box-sizing: border-box;
+    .template {
+      width: calc(100% / 3 - 40px / 3);
+    }
     img {
-      width: 360px !important;
-      height: 240px;
+      border-radius: 16px;
+      width: 100%;
+      max-height: 200px;
       clip: rect(0, 200px, 150px, 0);
     }
   }

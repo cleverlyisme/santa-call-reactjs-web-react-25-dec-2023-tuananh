@@ -27,12 +27,12 @@ function SideBar() {
   }
 
   const test = () => {
-    navigate("/test")
-  }
+    navigate("/test");
+  };
 
   return (
     <>
-      <div className="flex flex-col justify-between h-full bg-white rounded-xl">
+      <div className="flex flex-col justify-between gap-40 bg-white rounded-xl">
         <div className="flex flex-col m-5">
           <SidebarLink
             to="/"
@@ -71,8 +71,6 @@ function SideBar() {
               isActive={currentPath === "test"}
             />
           </div>
-
-
         </div>
         <div className="flex flex-col m-5">
           <SidebarLink
@@ -84,10 +82,11 @@ function SideBar() {
           />
 
           <div
-            className={`flex flex-col mt-4 pl-4 pr-11 py-2.5 rounded-lg whitespace-nowrap cursor-pointer ${isLogOutHovered
-              ? "bg-red-400 text-rose-100"
-              : "text-red-400 bg-white"
-              }`}
+            className={`flex flex-col mt-4 pl-4 pr-11 py-2.5 rounded-lg whitespace-nowrap cursor-pointer ${
+              isLogOutHovered
+                ? "bg-red-400 text-rose-100"
+                : "text-red-400 bg-white"
+            }`}
             onMouseEnter={() => setIsLogOutHovered(true)}
             onMouseLeave={() => setIsLogOutHovered(false)}
             onClick={handleLogOut}

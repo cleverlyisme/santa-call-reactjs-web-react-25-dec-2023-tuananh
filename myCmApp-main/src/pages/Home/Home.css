@@ -1,69 +1,71 @@
-.home-container{
+.home-container {
+  max-height: 100%;
+  .imgSearch {
+    position: relative;
+    top: 29px;
+    left: 12px;
+    cursor: pointer;
+  }
 
-    .imgSearch{
-        position: relative;
-        top:29px;
-        left: 12px;
-        cursor: pointer;
+  .search {
+    input {
+      width: 500px;
+      height: 40px;
+      padding-left: 45px;
+      padding-top: 3px;
+      padding-bottom: 3px;
+      color: red;
+      border-radius: 10px;
+      outline: none;
+      font-weight: 600;
     }
+  }
 
-    .search{
+  .swap-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin: 50px 0 20px 0;
+  }
 
-        input{
-            width: 500px;
-            height: 40px;
-            padding-left: 45px;
-            padding-top: 3px;
-            padding-bottom: 3px;
-            color: red;
-            border-radius: 10px;
-            outline: none;
-            font-weight: 600;
-        }
+  .image-swap,
+  .video-swap {
+    .title {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 10px;
+      .sp1 {
+        font-size: 22px;
+        font-weight: 600;
+        color: #f23635;
+      }
+
+      .sp2 {
+        font-weight: 400;
+      }
     }
+  }
 
-    .custome{
-        display: flex;
-        gap:15px;
-        margin-top: 70px;
+  .swiper {
+    max-width: 100%;
+    height: fit-content;
+    justify-content: space-evenly;
+  }
 
-        .images,.videos{
-            display: flex;
-            gap:5px;
-            color:#f23635 ;
-            background: #ffffff;
-            padding: 15px;
-            border-radius: 10px;
-        }
+  .swiper-slide {
+    border-radius: 16px;
+    overflow: hidden;
+    background: #fff;
+    img {
+      display: block;
+      width: 100%;
+      max-height: 150px;
     }
-
-    .image-swap{
-        margin-top: 30px;
-        .title{
-            display:flex;
-            flex-direction: column;
-            margin-bottom: 20px;
-            .sp1{
-                font-size: 22px;
-                font-weight: 600;
-                color: #f23635;
-            }
-
-            .sp2{
-                font-weight: 400;
-            }
-        }
-
+    .truncate {
+      max-width: 80%;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
-
-    .swap-event{
-        gap: 20px;
-        display: flex;
-        img{
-
-            width: 150px;
-            height: auto;
-            clip: rect(0, 200px, 150px, 0);
-        }
-    }
+  }
 }
