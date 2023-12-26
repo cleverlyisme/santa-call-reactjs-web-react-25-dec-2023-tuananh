@@ -6,6 +6,7 @@ import galaryIconActive from "../../assets/galleryIconActive.svg";
 import videoIcon from "../../assets/videoIcon.svg";
 import videoIconActive from "../../assets/videoIconActive.svg";
 import axios from "axios";
+import Modal from "./Modal";
 
 function Template() {
   const [searchKey, setSearchKey] = useState("");
@@ -13,7 +14,8 @@ function Template() {
   const [images, setImages] = useState([]);
   const [custome, setCustome] = useState("images");
   const [hoveredCustome, setHoveredCustome] = useState(null);
-  const [openModal, setOpenModal] = useState(true);
+  const [currentMedia, setCurrentMedia] = useState(null);
+  const [openModal, setOpenModal] = useState(false);
 
   const handleSearch = () => {
     console.log(searchKey);
@@ -23,12 +25,12 @@ function Template() {
     try {
       let respone = await axios.get(
         custome === "images"
-          ? "https://metatechvn.store/lovehistory/page/1?id_user=0"
+          ? "https://api.mangasocial.online/get/list_image/1?album=1"
           : "https://metatechvn.store/lovehistory/page/1?id_user=0"
       );
       if (respone) {
         custome === "images"
-          ? setImages(respone.data?.list_sukien[5].sukien)
+          ? setImages(respone.data?.list_sukien_video)
           : setVideos(respone.data?.list_sukien[5].sukien);
         console.log("respose:", respone);
       } else {
@@ -118,8 +120,19 @@ function Template() {
                 {videos.map((item, index) => {
                   console.log({ item });
                   return (
-                    <div key={index} className="template relative">
-                      <img src={item.link_nam_goc} />
+                    <div
+                      key={index}
+                      className="template relative cursor-pointer"
+                      onClick={() => {
+                        setOpenModal(true);
+                        setCurrentMedia({ type: "video", ...item });
+                      }}
+                    >
+                      <img
+                        src={item.link_nam_goc}
+                        alt="Video template"
+                        loading="lazy"
+                      />
                       <span className="absolute top-2 left-3 text-white text-xs font-medium">
                         2:00 min
                       </span>
@@ -138,8 +151,19 @@ function Template() {
               <div className="templates">
                 {images.map((item, index) => {
                   return (
-                    <div key={index} className="template">
-                      <img src={item.link_nam_goc} />
+                    <div
+                      key={index}
+                      className="template cursor-pointer"
+                      onClick={() => {
+                        setOpenModal(true);
+                        setCurrentMedia({ type: "face", ...item });
+                      }}
+                    >
+                      <img
+                        src={item.image}
+                        alt="Image template"
+                        loading="lazy"
+                      />
                     </div>
                   );
                 })}
@@ -148,6 +172,12 @@ function Template() {
           </>
         )}
       </div>
+      <Modal
+        openModal={openModal}
+        setOpenModal={setOpenModal}
+        currentMedia={currentMedia}
+        setCurrentMedia={setCurrentMedia}
+      />
     </div>
   );
 }

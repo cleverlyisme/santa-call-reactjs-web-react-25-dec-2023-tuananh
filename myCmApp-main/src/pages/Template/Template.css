@@ -40,7 +40,7 @@
   }
 
   .templates-container {
-    padding-right: 40px;
+    padding-right: 30px;
     margin-top: 30px;
     max-height: 80vh;
     overflow-y: scroll;
@@ -62,10 +62,11 @@
     gap: 20px;
     box-sizing: border-box;
     .template {
-      width: calc(100% / 3 - 40px / 3);
+      width: calc(100% / 5 - 80px / 5);
+      border-radius: 16px;
+      overflow: hidden;
     }
     img {
-      border-radius: 16px;
       width: 100%;
       max-height: 200px;
       clip: rect(0, 200px, 150px, 0);

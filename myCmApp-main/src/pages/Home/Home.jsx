@@ -10,7 +10,8 @@ import "../Home/Home.css";
 function Home() {
   const navigate = useNavigate();
   const [searchKey, setSearchKey] = useState("");
-  const [image, setImage] = useState([]);
+  const [images, setImages] = useState([]);
+  const [videos, setVideos] = useState([]);
 
   const handleSearch = () => {
     console.log(searchKey);
@@ -18,12 +19,16 @@ function Home() {
 
   const getSwapEvent = async () => {
     try {
-      let respone = await axios.get(
+      const imagesRespone = await axios.get(
         "https://metatechvn.store/lovehistory/page/1?id_user=0"
       );
-      if (respone) {
-        setImage(respone.data?.list_sukien[5].sukien);
-        console.log("respose:", respone);
+      const videosRespone = await axios.get(
+        "https://metatechvn.store/lovehistory/page/1?id_user=0"
+      );
+      if (imagesRespone && videosRespone) {
+        setImages(imagesRespone.data?.list_sukien[5].sukien);
+        setVideos(imagesRespone.data?.list_sukien[5].sukien);
+        console.log("respose:", imagesRespone);
       } else {
         console.log("no response");
       }
@@ -40,6 +45,7 @@ function Home() {
       <div className="searchBar">
         <img
           src={SearchIcon}
+          alt="Search"
           className="imgSearch"
           onClick={() => handleSearch()}
         />
@@ -67,12 +73,12 @@ function Home() {
               </span>
             </div>
           </div>
-          <Swiper slidesPerView={3} spaceBetween={30}>
-            {image.map((item, index) => {
+          <Swiper slidesPerView={5} spaceBetween={30}>
+            {images.map((item, index) => {
               console.log(item);
               return (
                 <SwiperSlide key={index} className="cursor-pointer">
-                  <img src={item.link_nam_goc} />
+                  <img src={item.link_nam_goc} alt="Image" />
                   <div className="flex flex-col gap-1 px-4 py-2">
                     <span className="truncate text-sm uppercase font-extralight text-green-600">
                       {item.ten_su_kien}
@@ -83,7 +89,7 @@ function Home() {
                     <span className="text-xs font-extralight text-gray-400">
                       18 images
                     </span>
-                    <div className="absolute bottom-4 right-4 w-5 h-5 rounded-full bg-green-800"></div>
+                    <div className="absolute bottom-4 right-4 w-4 h-4 rounded-full bg-green-800"></div>
                   </div>
                 </SwiperSlide>
               );
@@ -105,15 +111,15 @@ function Home() {
             </div>
           </div>
           <Swiper
-            slidesPerView={3}
+            slidesPerView={5}
             spaceBetween={10}
             pagination={{
               clickable: true,
             }}
           >
-            {image.map((item, index) => (
+            {videos.map((item, index) => (
               <SwiperSlide key={index} className="cursor-pointer">
-                <img src={item.link_nam_goc} />
+                <img src={item.link_nam_goc} alt="Video" />
                 <div className="flex flex-col gap-1 px-4 py-2">
                   <span className="truncate text-sm uppercase font-extralight text-green-600">
                     {item.ten_su_kien}
@@ -124,7 +130,7 @@ function Home() {
                   <span className="text-xs font-extralight text-gray-400">
                     2:00 min
                   </span>
-                  <div className="absolute bottom-4 right-4 w-5 h-5 rounded-full bg-green-800"></div>
+                  <div className="absolute bottom-4 right-4 w-4 h-4 rounded-full bg-green-800"></div>
                 </div>
               </SwiperSlide>
             ))}

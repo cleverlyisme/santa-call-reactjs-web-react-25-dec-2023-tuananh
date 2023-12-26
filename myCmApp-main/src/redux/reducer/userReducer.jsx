@@ -1,5 +1,6 @@
 // action types
 import { FETCH_USER_LOGIN_SUCCESS } from "../action/userAction";
+import { FETCH_USER_LOGOUT_SUCCESS } from "../action/userAction";
 
 // trạng thái ban đầu
 const INITIAL_STATE = {
@@ -36,6 +37,24 @@ const userReducer = (state = INITIAL_STATE, action) => {
           token: action?.payload?.token,
         },
         isAuthenticated: true,
+      };
+
+    case FETCH_USER_LOGOUT_SUCCESS:
+      return {
+        ...state,
+        account: {
+          id_user: "",
+          link_avatar: "",
+          user_name: "",
+          ip_register: "",
+          device_register: "",
+          email: "",
+          count_sukien: "",
+          count_comment: "",
+          count_view: "",
+          token: "",
+        },
+        isAuthenticated: false,
       };
 
     default:

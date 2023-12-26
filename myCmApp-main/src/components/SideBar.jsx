@@ -1,5 +1,10 @@
-import { Outlet, redirect, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
+import NProgress from "nprogress";
+import { toast } from "react-toastify";
+import { useDispatch } from "react-redux";
+import { doLogout } from "../redux/action/userAction";
+
 import SidebarLink from "./SidebarLink";
 import HomeIcon from "../assets/HomeIcon.svg";
 import MenuIcon from "../assets/MenuIcon.svg";
@@ -19,16 +24,20 @@ function SideBar() {
   const currentPath = location.pathname;
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const [isLogOutHovered, setIsLogOutHovered] = useState(false);
 
   function handleLogOut() {
-    navigate("/signin");
+    NProgress.start();
+    try {
+      dispatch(doLogout());
+      navigate("/");
+    } catch (err) {
+      toast.error("Logout fail");
+    }
+    NProgress.done();
   }
-
-  const test = () => {
-    navigate("/test");
-  };
 
   return (
     <>
@@ -62,15 +71,6 @@ function SideBar() {
             label="Swap Video"
             isActive={currentPath === "/swap-video"}
           />
-          <div onClick={test}>
-            <SidebarLink
-              to="test"
-              activeIcon={VideoIconActive}
-              defaultIcon={VideoIcon}
-              label="Test"
-              isActive={currentPath === "test"}
-            />
-          </div>
         </div>
         <div className="flex flex-col m-5">
           <SidebarLink
