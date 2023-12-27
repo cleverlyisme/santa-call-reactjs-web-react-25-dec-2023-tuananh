@@ -1,17 +1,16 @@
 import SideBar from "./components/SideBar";
 import Notification from "./components/Notification/Notification";
 import { Outlet } from "react-router-dom";
-import SwapFace from "./pages/SwapFace/SwapFace";
 
 function App() {
   return (
     <>
       <div className="max-w-screen min-h-screen bg-app">
-        <div className="flex w-full gap-10 px-5 py-5">
-          <div className="sidebar-container">
+        <div className="flex justify-center md:justify-start w-full gap-10 px-3 sm:px-5 py-5">
+          <div className="hidden md:block">
             <SideBar />
           </div>
-          <div className="max-w-screen-lg">
+          <div className="w-[80vw] sm:w-[70vw] md:w-[60vw] lg:w-[65vw] xl:w-[75vw]">
             <Outlet />
           </div>
           <Notification />

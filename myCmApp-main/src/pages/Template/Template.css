@@ -1,14 +1,13 @@
 .home-container {
   .imgSearch {
-    position: relative;
-    top: 29px;
+    position: absolute;
+    top: 10px;
     left: 12px;
     cursor: pointer;
   }
 
   .search {
     input {
-      width: 500px;
       height: 40px;
       padding-left: 45px;
       padding-top: 3px;
@@ -20,27 +19,16 @@
     }
   }
 
-  .custome {
-    display: flex;
-    gap: 15px;
-    margin-top: 50px;
-
-    .images-custome,
-    .videos-custome {
-      display: flex;
-      gap: 5px;
-      padding: 15px;
-      border-radius: 10px;
-
-      img {
-        width: 24px;
-        height: 24px;
-      }
+  .images-custome,
+  .videos-custome {
+    img {
+      width: 24px;
+      height: 24px;
     }
   }
 
   .templates-container {
-    padding-right: 30px;
+    padding-right: 20px;
     margin-top: 30px;
     max-height: 80vh;
     overflow-y: scroll;
@@ -62,13 +50,12 @@
     gap: 20px;
     box-sizing: border-box;
     .template {
-      width: calc(100% / 5 - 80px / 5);
       border-radius: 16px;
       overflow: hidden;
     }
     img {
       width: 100%;
-      max-height: 200px;
+      height: 100%;
       clip: rect(0, 200px, 150px, 0);
     }
   }

@@ -3,9 +3,18 @@ import { useNavigate } from "react-router-dom";
 import ArrowLeftIcon from "../../assets/ArrowLeftIcon.svg";
 import ArrowRightIcon from "../../assets/ArrowRightIcon.svg";
 
-function Modal({ openModal, setOpenModal, currentMedia, setCurrentMedia }) {
+function Modal({
+  openModal,
+  setOpenModal,
+  currentMedia,
+  setCurrentMedia,
+  setPreviousMedia,
+  setNextMedia,
+}) {
   const navigate = useNavigate();
-  if (!openModal) return null;
+
+  if (!openModal || !currentMedia) return null;
+
   return (
     <div
       className="fixed w-screen h-screen top-0 left-0 flex justify-evenly items-center bg-black bg-opacity-70 z-20"
@@ -17,14 +26,15 @@ function Modal({ openModal, setOpenModal, currentMedia, setCurrentMedia }) {
       <img
         src={ArrowLeftIcon}
         alt="Previous"
-        className="cursor-pointer hover:opacity-50"
+        className="hidden sm:block cursor-pointer hover:opacity-50"
         onClick={(e) => {
           e.stopPropagation();
+          setPreviousMedia();
         }}
       />
-      <div className="flex flex-col gap-10">
+      <div className="flex flex-col gap-5">
         <div
-          className="bg-gray-500 rounded-xl w-[40vw] h-[60vh] overflow-hidden"
+          className="bg-gray-500 rounded-xl w-[80vw] sm:w-[50vw] lg:w-[40vw] xl:w-[30vw] h-[60vh] overflow-hidden"
           onClick={(e) => e.stopPropagation()}
         >
           {currentMedia?.type === "face" ? (
@@ -34,7 +44,7 @@ function Modal({ openModal, setOpenModal, currentMedia, setCurrentMedia }) {
               className="w-full h-full"
             />
           ) : (
-            <video className="rounded-xl w-[40vw] h-[60vh]" controls>
+            <video className="rounded-xl w-full h-full" controls>
               <source
                 src={"https://futurelove.online/image/video_sk/302.mp4"}
                 type="video/mp4"
@@ -49,7 +59,9 @@ function Modal({ openModal, setOpenModal, currentMedia, setCurrentMedia }) {
             onClick={(e) => {
               e.stopPropagation();
               navigate(
-                currentMedia.type === "face" ? "/swap-face" : "/swap-video"
+                currentMedia.type === "face"
+                  ? `/swap-face/${currentMedia.id}`
+                  : `/swap-video/${currentMedia.id}`
               );
             }}
           >
@@ -60,9 +72,10 @@ function Modal({ openModal, setOpenModal, currentMedia, setCurrentMedia }) {
       <img
         src={ArrowRightIcon}
         alt="Next"
-        className="cursor-pointer hover:opacity-50"
+        className="hidden sm:block cursor-pointer hover:opacity-50"
         onClick={(e) => {
           e.stopPropagation();
+          setNextMedia();
         }}
       />
     </div>

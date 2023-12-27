@@ -39,10 +39,10 @@ ReactDOM.createRoot(document.getElementById("root")).render(
             <Route path="/" element={<App />}>
               <Route element={<PrivateRoute />}>
                 <Route index element={<Home />} />
-                <Route path="template" element={<Template />} />
-                <Route path="swap-face" element={<SwapFace />} />
-                <Route path="swap-video" element={<SwapVideo />} />
-                <Route path="profile" element={<Profile />} />
+                <Route path="/template" element={<Template />} />
+                <Route path="/swap-face/*" element={<SwapFace />} />
+                <Route path="/swap-video/*" element={<SwapVideo />} />
+                <Route path="/profile" element={<Profile />} />
                 <Route path="test" element={<Test />} />
               </Route>
             </Route>

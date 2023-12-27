@@ -3,15 +3,40 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
+import "swiper/css/pagination";
 
 import SearchIcon from "../../assets/SearchIcon.svg";
-import "../Home/Home.css";
+import MenuBar from "../../components/MenuBar/MenuBar";
+import "./Home.css";
 
 function Home() {
   const navigate = useNavigate();
   const [searchKey, setSearchKey] = useState("");
   const [images, setImages] = useState([]);
   const [videos, setVideos] = useState([]);
+
+  const breakpoints = {
+    // 640: {
+    //   slidesPerView: 2,
+    //   spaceBetween: 20,
+    // },
+    // 768: {
+    //   slidesPerView: 2,
+    //   spaceBetween: 40,
+    // },
+    1024: {
+      slidesPerView: 3,
+      spaceBetween: 30,
+    },
+    1280: {
+      slidesPerView: 4,
+      spaceBetween: 40,
+    },
+    1536: {
+      slidesPerView: 4,
+      spaceBetween: 50,
+    },
+  };
 
   const handleSearch = () => {
     console.log(searchKey);
@@ -42,24 +67,25 @@ function Home() {
 
   return (
     <div className="home-container">
-      <div className="searchBar">
-        <img
-          src={SearchIcon}
-          alt="Search"
-          className="imgSearch"
-          onClick={() => handleSearch()}
-        />
-        <div className="search">
+      <div className="searchBar flex items-center mt-5 gap-2 sm:gap-4">
+        <MenuBar />
+        <div className="search relative">
+          <img
+            src={SearchIcon}
+            alt="Search"
+            className="imgSearch"
+            onClick={() => handleSearch()}
+          />
           <input
             type="text"
             placeholder="Search or type"
             value={searchKey}
-            className="placeholder-gray-400 placeholder-opacity-75 text-sm"
+            className="placeholder-gray-400 placeholder-opacity-75 text-xs sm:text-sm w-[40vw]"
             onChange={(event) => setSearchKey(event.target.value)}
           />
         </div>
       </div>
-      <div className="swap-container">
+      <div className="swap-container mt-12 mb-5">
         <div className="image-swap">
           <div className="title">
             <span className="sp1">Images</span>
@@ -73,12 +99,23 @@ function Home() {
               </span>
             </div>
           </div>
-          <Swiper slidesPerView={5} spaceBetween={30}>
+          <Swiper
+            slidesPerView={2}
+            spaceBetween={20}
+            pagination={{
+              clickable: true,
+            }}
+            breakpoints={breakpoints}
+          >
             {images.map((item, index) => {
               console.log(item);
               return (
                 <SwiperSlide key={index} className="cursor-pointer">
-                  <img src={item.link_nam_goc} alt="Image" />
+                  <img
+                    src={item.link_nam_goc}
+                    alt="Image"
+                    className="max-h-[200px]"
+                  />
                   <div className="flex flex-col gap-1 px-4 py-2">
                     <span className="truncate text-sm uppercase font-extralight text-green-600">
                       {item.ten_su_kien}
@@ -111,15 +148,20 @@ function Home() {
             </div>
           </div>
           <Swiper
-            slidesPerView={5}
-            spaceBetween={10}
+            slidesPerView={2}
+            spaceBetween={20}
             pagination={{
               clickable: true,
             }}
+            breakpoints={breakpoints}
           >
             {videos.map((item, index) => (
               <SwiperSlide key={index} className="cursor-pointer">
-                <img src={item.link_nam_goc} alt="Video" />
+                <img
+                  src={item.link_nam_goc}
+                  alt="Video"
+                  className="max-h-[200px]"
+                />
                 <div className="flex flex-col gap-1 px-4 py-2">
                   <span className="truncate text-sm uppercase font-extralight text-green-600">
                     {item.ten_su_kien}

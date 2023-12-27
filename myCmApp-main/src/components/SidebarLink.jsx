@@ -8,7 +8,7 @@ function SidebarLink({ to, activeIcon, defaultIcon, label, isActive }) {
   return (
     <Link
       to={to}
-      className={`flex flex-col mt-4 pl-4 pr-11 py-2.5 rounded-lg whitespace-nowrap ${
+      className={`flex flex-col mt-4 pl-4 pr-6 lg:pr-10 py-2.5 rounded-lg whitespace-nowrap ${
         isActive || isHovered
           ? "bg-red-400 text-rose-100"
           : "bg-white text-red-400"
@@ -21,7 +21,7 @@ function SidebarLink({ to, activeIcon, defaultIcon, label, isActive }) {
           loading="lazy"
           src={isActive || isHovered ? activeIcon : defaultIcon}
         />
-        <div className="font-semibold grow">{label}</div>
+        <div className="text-sm lg:text-base font-semibold grow">{label}</div>
       </div>
     </Link>
   );
