@@ -41,7 +41,7 @@ function SideBar() {
 
   return (
     <>
-      <div className="flex flex-col justify-between gap-40 bg-white rounded-xl">
+      <div className="h-[90vh] flex flex-col justify-between bg-white rounded-xl">
         <div className="flex flex-col m-5">
           <SidebarLink
             to="/"

@@ -6,7 +6,7 @@ function App() {
   return (
     <>
       <div className="max-w-screen min-h-screen bg-app">
-        <div className="flex justify-center md:justify-start w-full gap-10 px-3 sm:px-5 py-5">
+        <div className="flex justify-center md:justify-start w-full gap-10 px-3 sm:px-5 md:px-10 py-10">
           <div className="hidden md:block">
             <SideBar />
           </div>

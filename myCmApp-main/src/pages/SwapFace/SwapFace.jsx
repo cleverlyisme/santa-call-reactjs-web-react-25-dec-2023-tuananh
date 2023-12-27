@@ -3,6 +3,7 @@ import { useRef, useState } from "react";
 import MenuBar from "../../components/MenuBar/MenuBar";
 import UploadImageIcon from "../../assets/UploadImageIcon.svg";
 import TransferIcon from "../../assets/TransferIcon.svg";
+import DirectLeftIcon from "../../assets/DirectLeftIcon.svg";
 
 function SwapFace() {
   const [imageSrc, setImageSrc] = useState("");
@@ -11,7 +12,7 @@ function SwapFace() {
   return (
     <div>
       <input className="hidden" type="file" ref={uploadRef} accept="image/*" />
-      <div className="searchBar flex items-center mt-10 md:mt-24 mb-[30px] gap-2 sm:gap-4">
+      <div className="searchBar flex items-center md:mt-10 lg:mt-24 mb-[20px] gap-2 sm:gap-4">
         <MenuBar />
       </div>
       <div className="flex flex-col">
@@ -43,20 +44,25 @@ function SwapFace() {
           </div>
         </div>
 
-        <div className="flex flex-col xl:flex-row items-center xl:justify-between mt-10 gap-5">
+        <div className="flex flex-col lg:flex-row items-center lg:justify-between mt-10 gap-5">
           <div className="w-[400px] h-[400px] xl:w-[550px] xl:h-[550px] bg-gray-500 rounded-lg"></div>
           <img
             src={TransferIcon}
             alt="Transfer"
-            className="w-[50px] h-[50px] rotate-90 xl:rotate-0"
+            className="w-[50px] h-[50px] rotate-90 lg:rotate-0"
           />
 
           <div className="w-[400px] h-[400px] xl:w-[550px] xl:h-[550px] bg-gray-500 rounded-lg "></div>
         </div>
 
-        <div>
-          <button className="bg-red-400 py-4 w-[200px] rounded-lg text-white text-[20px] mt-10">
+        <div className="flex justify-between items-center mt-10">
+          <button className="bg-red-400 py-4 w-[200px] rounded-lg text-white text-[20px]">
             Download
+          </button>
+
+          <button className="flex items-center text-red-400 text-[20px] gap-2">
+            <span>Go to detail</span>
+            <img src={DirectLeftIcon} alt="Direct" />
           </button>
         </div>
       </div>
