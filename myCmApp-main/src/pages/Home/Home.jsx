@@ -5,9 +5,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
 
-import SearchIcon from "../../assets/SearchIcon.svg";
-import MenuBar from "../../components/MenuBar/MenuBar";
-import "./Home.css";
+import SearchBar from "../../components/SearchBar/SearchBar";
 
 function Home() {
   const navigate = useNavigate();
@@ -16,14 +14,6 @@ function Home() {
   const [videos, setVideos] = useState([]);
 
   const breakpoints = {
-    // 640: {
-    //   slidesPerView: 2,
-    //   spaceBetween: 20,
-    // },
-    // 768: {
-    //   slidesPerView: 2,
-    //   spaceBetween: 40,
-    // },
     1024: {
       slidesPerView: 3,
       spaceBetween: 30,
@@ -66,31 +56,20 @@ function Home() {
   }, []);
 
   return (
-    <div className="home-container">
-      <div className="searchBar flex items-center mt-5 gap-2 sm:gap-4">
-        <MenuBar />
-        <div className="search relative">
-          <img
-            src={SearchIcon}
-            alt="Search"
-            className="imgSearch"
-            onClick={() => handleSearch()}
-          />
-          <input
-            type="text"
-            placeholder="Search or type"
-            value={searchKey}
-            className="placeholder-gray-400 placeholder-opacity-75 text-xs sm:text-sm w-[40vw]"
-            onChange={(event) => setSearchKey(event.target.value)}
-          />
-        </div>
-      </div>
-      <div className="swap-container mt-12 mb-5">
+    <div>
+      <SearchBar
+        searchKey={searchKey}
+        setSearchKey={setSearchKey}
+        handleSearch={handleSearch}
+      />
+      <div className="flex flex-col gap-[20px] mt-12 mb-5">
         <div className="image-swap">
-          <div className="title">
-            <span className="sp1">Images</span>
+          <div className="flex flex-col mb-[10px]">
+            <span className="text-[22px] font-semibold text-red-400">
+              Images
+            </span>
             <div className="flex justify-between text-green-600">
-              <span className="sp2">Swap Image</span>
+              <span className="font-normal">Swap Image</span>
               <span
                 className="cursor-pointer hover:underline"
                 onClick={() => navigate("/template")}
@@ -135,10 +114,12 @@ function Home() {
         </div>
 
         <div className="video-swap">
-          <div className="title">
-            <span className="sp1">Videos</span>
+          <div className="flex flex-col mb-[10px]">
+            <span className="text-[22px] font-semibold text-red-400">
+              Videos
+            </span>
             <div className="flex justify-between text-green-600">
-              <span className="sp2">Swap Video</span>
+              <span className="font-normal">Swap Video</span>
               <span
                 className="cursor-pointer hover:underline"
                 onClick={() => navigate("/template")}

@@ -12,6 +12,7 @@ function Modal({
   setNextMedia,
 }) {
   const navigate = useNavigate();
+  console.log(currentMedia?.id);
 
   if (!openModal || !currentMedia) return null;
 
@@ -44,12 +45,13 @@ function Modal({
               className="w-full h-full"
             />
           ) : (
-            <video className="rounded-xl w-full h-full" controls>
-              <source
-                src={"https://futurelove.online/image/video_sk/302.mp4"}
-                type="video/mp4"
-              />{" "}
-              Your browser does not support the video tag.
+            <video
+              key={currentMedia.id}
+              className="rounded-xl w-full h-full"
+              controls
+            >
+              <source src={currentMedia.link_video} type="video/mp4" /> Your
+              browser does not support the video tag.
             </video>
           )}
         </div>
@@ -59,9 +61,7 @@ function Modal({
             onClick={(e) => {
               e.stopPropagation();
               navigate(
-                currentMedia.type === "face"
-                  ? `/swap-face/${currentMedia.id}`
-                  : `/swap-video/${currentMedia.id}`
+                `/swap-${currentMedia.type}/${currentMedia.id}?album_id=1`
               );
             }}
           >

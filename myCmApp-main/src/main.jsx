@@ -8,10 +8,11 @@ import SignUp from "./pages/SignUp/SignUp.jsx";
 import ForgotPassword from "./pages/ForgotPassword/ForgotPassword.jsx";
 import Home from "./pages/Home/Home.jsx";
 import Template from "./pages/Template/Template.jsx";
+import SwapFaceDetail from "./pages/SwapDetail/SwapFaceDetail.jsx";
+import SwapVideoDetail from "./pages/SwapDetail/SwapVideoDetail.jsx";
 import SwapFace from "./pages/SwapFace/SwapFace.jsx";
 import SwapVideo from "./pages/SwapVideo/SwapVideo.jsx";
 import Profile from "./pages/Profile/Profile.jsx";
-import Test from "./pages/Test/Test.jsx";
 
 import { ToastContainer } from "react-toastify";
 import NProgress from "nprogress";
@@ -40,10 +41,11 @@ ReactDOM.createRoot(document.getElementById("root")).render(
               <Route element={<PrivateRoute />}>
                 <Route index element={<Home />} />
                 <Route path="/template" element={<Template />} />
-                <Route path="/swap-face/*" element={<SwapFace />} />
-                <Route path="/swap-video/*" element={<SwapVideo />} />
+                <Route path="/swap-face" element={<SwapFaceDetail />} />
+                <Route path="/swap-video" element={<SwapVideoDetail />} />
+                <Route path="/swap-face/:id" element={<SwapFace />} />
+                <Route path="/swap-video/:id" element={<SwapVideo />} />
                 <Route path="/profile" element={<Profile />} />
-                <Route path="test" element={<Test />} />
               </Route>
             </Route>
 

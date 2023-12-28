@@ -11,7 +11,7 @@ function MenuBar() {
   return (
     <>
       <div
-        className="flex md:hidden p-2 hover:bg-red-400 rounded cursor-pointer"
+        className="w-[fit-content] flex md:hidden p-2 hover:bg-red-400 rounded cursor-pointer"
         onMouseEnter={() => {
           setHovered(true);
         }}

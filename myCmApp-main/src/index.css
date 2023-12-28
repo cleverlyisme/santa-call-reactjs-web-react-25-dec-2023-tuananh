@@ -19,3 +19,35 @@ input[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
+
+.swiper {
+  max-width: 100%;
+  height: fit-content;
+  justify-content: space-evenly;
+}
+
+.swiper-slide {
+  border-radius: 16px;
+  overflow: hidden;
+  background: #fff;
+  img {
+    display: block;
+    width: 100%;
+  }
+}
+
+.truncate {
+  max-width: 80%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.truncate-2 {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  white-space: wrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

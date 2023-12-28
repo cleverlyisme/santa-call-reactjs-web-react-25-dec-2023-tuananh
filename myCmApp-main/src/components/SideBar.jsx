@@ -41,7 +41,7 @@ function SideBar() {
 
   return (
     <>
-      <div className="h-[90vh] flex flex-col justify-between bg-white rounded-xl">
+      <div className="h-[80vh] flex flex-col justify-between bg-white rounded-xl">
         <div className="flex flex-col m-5">
           <SidebarLink
             to="/"
@@ -55,21 +55,21 @@ function SideBar() {
             activeIcon={MenuIconActive}
             defaultIcon={MenuIcon}
             label="Template"
-            isActive={currentPath === "/template"}
+            isActive={!!currentPath.includes("/template")}
           />
           <SidebarLink
             to="/swap-face"
             activeIcon={GalleryIconActive}
             defaultIcon={GalleryIcon}
             label="Swap Face"
-            isActive={currentPath === "/swap-face"}
+            isActive={!!currentPath.includes("/swap-face")}
           />
           <SidebarLink
             to="/swap-video"
             activeIcon={VideoIconActive}
             defaultIcon={VideoIcon}
             label="Swap Video"
-            isActive={currentPath === "/swap-video"}
+            isActive={!!currentPath.includes("/swap-video")}
           />
         </div>
         <div className="flex flex-col m-5">
@@ -78,7 +78,7 @@ function SideBar() {
             activeIcon={ProfileIconActive}
             defaultIcon={ProfileIcon}
             label="Profile"
-            isActive={currentPath === "/profile"}
+            isActive={!!currentPath.includes("/profile")}
           />
 
           <div
