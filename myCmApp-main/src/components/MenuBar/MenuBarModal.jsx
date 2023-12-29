@@ -42,7 +42,7 @@ function MenuBarModal({ openMenu, setOpenMenu }) {
 
   return (
     <div
-      className="fixed md:hidden flex w-screen h-screen top-0 left-0 bg-black bg-opacity-70 z-20"
+      className="fixed lg:hidden flex w-screen h-screen top-0 left-0 bg-black bg-opacity-70 z-20"
       onClick={() => setOpenMenu(false)}
     >
       <div className="bg-white w-[50vw] sm:w-[40vw] h-screen flex flex-col justify-between py-10 px-2">

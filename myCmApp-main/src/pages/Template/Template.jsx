@@ -149,7 +149,7 @@ function Template() {
           </button>
         </div>
       </div>
-      <div className="pr-[20px] mt-[30px] max-h-[80vh] overflow-y-scroll">
+      <div className="pr-[20px] mt-[30px] max-h-[80vh]">
         <ListTemplates
           tabItem={tabItem}
           medias={tabItem === "images" ? images : videos}
