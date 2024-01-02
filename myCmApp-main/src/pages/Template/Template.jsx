@@ -60,7 +60,6 @@ function Template() {
         : videos.find((item, index) => {
             if (currentMedia.id === videos[index - 1]?.id) return item;
           });
-    console.log({ src: nextMedia.link_video });
     setCurrentMedia(
       nextMedia ? { type: currentMedia.type, ...nextMedia } : null
     );
@@ -68,16 +67,15 @@ function Template() {
 
   const getMedias = async () => {
     try {
-      let respone = await axios.get(
+      let response = await axios.get(
         tabItem === "images"
           ? "https://api.mangasocial.online/get/list_image/1?album=1"
           : "https://api.mangasocial.online/lovehistory/listvideo/santa/1?category=3"
       );
-      if (respone) {
+      if (response) {
         tabItem === "images"
-          ? setImages(respone.data?.list_sukien_video)
-          : setVideos(respone.data?.list_sukien_video);
-        console.log("respose:", respone);
+          ? setImages(response.data?.list_sukien_video)
+          : setVideos(response.data?.list_sukien_video);
       } else {
         console.log("no response");
       }

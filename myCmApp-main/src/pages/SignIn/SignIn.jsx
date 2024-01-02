@@ -6,8 +6,9 @@ import BgAuth from "../../assets/bg-auth.png";
 import EyeIcon from "../../assets/EyeIcon.svg";
 import NProgress from "nprogress";
 import { toast } from "react-toastify";
-import axios from "axios";
 import { useDispatch } from "react-redux";
+
+import { signIn } from "../../services/auth.service";
 import { doLogin } from "../../redux/action/userAction";
 
 function SignIn() {
@@ -36,20 +37,25 @@ function SignIn() {
 
     try {
       NProgress.start();
-      const response = await axios.post(
-        "https://metatechvn.store/login",
-        formData
-      );
+      const response = await signIn(formData);
       if (response.status === 200) {
         NProgress.done();
         if (response.data.message === "Invalid Password!!") {
           toast.warn(response.data.message);
           return;
         }
-        dispatch(doLogin(response.data));
-        console.log(response.data);
+        const account = response.data;
+        dispatch(
+          doLogin({
+            ...account,
+            link_avatar: account.link_avatar.replace(
+              "/var/www/build_futurelove/",
+              "https://futurelove.online/"
+            ),
+          })
+        );
         toast.success("Login success");
-        localStorage.setItem("image", response.data.link_avatar);
+        localStorage.setItem("accessToken", response.data.token);
         navigate("/");
       }
     } catch (error) {

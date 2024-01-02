@@ -1,13 +1,15 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { deviceDetect } from "react-device-detect";
+import { toast } from "react-toastify";
+import axios from "axios";
+import NProgress from "nprogress";
+
+import { signUp } from "../../services/auth.service";
 import SantaClaus from "../../assets/santa-claus.png";
 import GoogleLogo from "../../assets/LogoGoogle.svg";
 import BgAuth from "../../assets/bg-auth.png";
 import EyeIcon from "../../assets/EyeIcon.svg";
-import axios from "axios";
-import { deviceDetect } from "react-device-detect";
-import { toast } from "react-toastify";
-import NProgress from "nprogress";
 
 function SignUp() {
   const [userName, setUserName] = useState("");
@@ -100,10 +102,7 @@ function SignUp() {
 
     try {
       NProgress.start();
-      const response = await axios.post(
-        "https://metatechvn.store/register/user",
-        formData
-      );
+      const response = await signUp(formData);
       if (response.status === 200) {
         NProgress.done();
         if (response.data.message === "Account already exists!") {

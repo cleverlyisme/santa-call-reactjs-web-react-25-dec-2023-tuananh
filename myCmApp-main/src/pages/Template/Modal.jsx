@@ -12,7 +12,6 @@ function Modal({
   setNextMedia,
 }) {
   const navigate = useNavigate();
-  console.log(currentMedia?.id);
 
   if (!openModal || !currentMedia) return null;
 

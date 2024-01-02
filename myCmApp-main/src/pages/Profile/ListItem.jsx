@@ -6,7 +6,7 @@ const ListItem = ({ type, medias }) => {
           key={index}
           className="flex flex-col items-center md:flex-row gap-8 md:gap-12"
         >
-          <div className="w-[300px] h-[300px] md:w-[400px] md:h-[300px] rounded-lg overflow-hidden">
+          <div className="w-full h-[auto] md:w-[50%] md:h-[50%] rounded-lg overflow-hidden">
             <img
               src={item.image}
               alt={type}
@@ -28,7 +28,7 @@ const ListItem = ({ type, medias }) => {
             <span className="capitalize text-[16px] text-gray-400 mb-5">
               Total 10 {type}s
             </span>
-            <button className="capitalize bg-red-400 px-2 py-3 xl:py-4 w-[100px] xl:w-[150px] rounded-lg text-white text-[14px] xl:text-[16px]">
+            <button className="capitalize bg-red-400 px-2 py-3 w-[100px] xl:w-[150px] rounded-lg text-white text-[14px] xl:text-[16px]">
               View
             </button>
           </div>

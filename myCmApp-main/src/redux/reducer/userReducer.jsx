@@ -25,6 +25,7 @@ const userReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         account: {
+          ...state.account,
           id_user: action?.payload?.id_user,
           link_avatar: action?.payload?.link_avatar,
           user_name: action?.payload?.user_name,
@@ -43,6 +44,7 @@ const userReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         account: {
+          ...state.account,
           id_user: "",
           link_avatar: "",
           user_name: "",

@@ -34,16 +34,15 @@ function Home() {
 
   const getSwapEvent = async () => {
     try {
-      const imagesRespone = await axios.get(
+      const imagesResponse = await axios.get(
         "https://metatechvn.store/lovehistory/page/1?id_user=0"
       );
-      const videosRespone = await axios.get(
+      const videosResponse = await axios.get(
         "https://metatechvn.store/lovehistory/page/1?id_user=0"
       );
-      if (imagesRespone && videosRespone) {
-        setImages(imagesRespone.data?.list_sukien[5].sukien);
-        setVideos(imagesRespone.data?.list_sukien[5].sukien);
-        console.log("respose:", imagesRespone);
+      if (imagesResponse && videosResponse) {
+        setImages(imagesResponse.data?.list_sukien[5].sukien);
+        setVideos(imagesResponse.data?.list_sukien[5].sukien);
       } else {
         console.log("no response");
       }
@@ -87,7 +86,6 @@ function Home() {
             breakpoints={breakpoints}
           >
             {images.map((item, index) => {
-              console.log(item);
               return (
                 <SwiperSlide key={index} className="cursor-pointer">
                   <img

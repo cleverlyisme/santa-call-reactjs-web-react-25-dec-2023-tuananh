@@ -46,16 +46,16 @@ function SwapVideo() {
 
   const getBaseVid = async () => {
     try {
-      const respone = await axios.get(
+      const response = await axios.get(
         `https://api.mangasocial.online/lovehistory/listvideo/santa/${album_id}?category=3`
       );
 
-      if (!respone) {
+      if (!response) {
         navigate("/swap-face");
         return;
       }
 
-      const videos = respone.data.list_sukien_video;
+      const videos = response.data.list_sukien_video;
       setTransferedVideo(
         videos.find((item) => item.id === Number(id))?.link_video
       );
@@ -77,23 +77,23 @@ function SwapVideo() {
       formData.append("src_img", file);
 
       NProgress.start();
-      const uploadRespone = await axios.post(
+      const uploadResponse = await axios.post(
         "https://metatechvn.store/upload-gensk/200?type=src_nam",
         formData
       );
 
-      if (!uploadRespone) throw new Error("Upload image fail");
+      if (!uploadResponse) throw new Error("Upload image fail");
 
-      const imgUploadSrc = uploadRespone.data;
+      const imgUploadSrc = uploadResponse.data;
 
-      const swapRespone = await axios.get(
+      const swapResponse = await axios.get(
         `https://api.mangasocial.online/getdata/swap/listimage?device_them_su_kien=gdgdgf&ip_them_su_kien=dfbdfbdf&id_user=144&list_folder=album_${album_id}`,
         { headers: { link1: imgUploadSrc, Authorization: `Bearer ${token}` } }
       );
 
-      if (!swapRespone) throw new Error("Swap face fail");
+      if (!swapResponse) throw new Error("Swap face fail");
 
-      const data = swapRespone.data;
+      const data = swapResponse.data;
 
       console.log({ data });
 

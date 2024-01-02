@@ -1,14 +1,13 @@
 import { useEffect, useId, useRef, useState } from "react";
-import { useSelector } from "react-redux";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import NProgress from "nprogress";
 import JSZip from "jszip";
 import JSZipUtils from "jszip-utils";
 import { saveAs } from "file-saver";
-import UrlImageDownloader from "react-url-image-downloader";
 import axios from "axios";
 
+import { uploadImg, swapAlbumImages } from "../../services/swap.service";
 import MenuBar from "../../components/MenuBar/MenuBar";
 import UploadImageIcon from "../../assets/UploadImageIcon.svg";
 import TransferIcon from "../../assets/TransferIcon.svg";
@@ -33,8 +32,6 @@ function SwapFace() {
   const searchParams = new URLSearchParams(location.search);
   const album_id = searchParams.get("album_id");
 
-  const { token } = useSelector((state) => state.user.account);
-
   const handleInputChange = (e) => {
     try {
       const fileUploaded = e.target.files[0];
@@ -51,31 +48,25 @@ function SwapFace() {
 
   const handleUploadAndSwap = async () => {
     try {
-      if (!file) throw new Error("Not found file upload");
+      if (!file) throw new Error("File upload not found");
 
       const formData = new FormData();
       formData.append("src_img", file);
 
       NProgress.start();
-      const uploadRespone = await axios.post(
-        "https://metatechvn.store/upload-gensk/200?type=src_nam",
-        formData
-      );
+      const uploadResponse = await uploadImg(formData);
 
-      if (!uploadRespone) throw new Error("Upload image fail");
+      console.log({ data: uploadResponse });
 
-      const imgUploadSrc = uploadRespone.data;
+      if (!uploadResponse) throw new Error("Upload image fail");
 
-      const swapRespone = await axios.get(
-        `https://api.mangasocial.online/getdata/swap/listimage?device_them_su_kien=gdgdgf&ip_them_su_kien=dfbdfbdf&id_user=144&list_folder=album_${album_id}`,
-        { headers: { link1: imgUploadSrc, Authorization: `Bearer ${token}` } }
-      );
+      const imgUploadSrc = uploadResponse.data;
 
-      if (!swapRespone) throw new Error("Swap face fail");
+      const swapResponse = await swapAlbumImages(album_id, imgUploadSrc);
 
-      const data = swapRespone.data;
+      if (!swapResponse) throw new Error("Swap face fail");
 
-      console.log({ data });
+      const data = swapResponse.data;
 
       setOriginalImg(
         data.sukien_2_image.link_src_goc.replace(
@@ -83,12 +74,8 @@ function SwapFace() {
           "https://futurelove.online/"
         )
       );
-      setTransferedImgSrc(
-        data.sukien_2_image.link_da_swap.replace("onlineimage", "online/image")
-      );
       setListSrcTransfered(data["link anh da swap"]);
-      // setBaseImageSrc(data.sukien_2_image.link_src_goc);
-      // setTransferedImgSrc(data.sukien_2_image.link_da_swap);
+      setTransferedImgSrc(data.sukien_2_image.link_da_swap);
     } catch (error) {
       toast.error("Fail: " + error.message);
       console.log({ err: error.message });
@@ -96,43 +83,35 @@ function SwapFace() {
     NProgress.done();
   };
 
-  const handleDownloadImage = async () => {};
+  const handleDownloadImage = async (img) => {
+    try {
+      const fileName = img.split("/").pop();
+
+      saveAs(img, fileName);
+    } catch (error) {
+      toast.error("Error: " + error.message);
+      console.log({ err: error.message });
+    }
+  };
 
   const handleDownloadAllImages = async () => {
+    NProgress.start();
     try {
       if (listSrcTransfered.length < 1)
         throw new Error("No swapped image found");
 
       let count = 0;
-      let zipFilename = "images.zip";
+      let zipFileName = "images.zip";
       for (const img of listSrcTransfered) {
-        const filename = img.split("/").pop();
+        const fileName = img.split("/").pop();
 
-        // const fetched = await axios.get(
-        //   img.replace("onlineimage", "online/image"),
-        //   {
-        //     headers: {
-        //       Accept: "application/json",
-        //       "Content-Type": "application/json",
-        //       "Access-Control-Allow-Origin": "*",
-        //       "Access-Control-Allow-Headers":
-        //         "Origin, X-Requested-With, Content-Type, Accept, Authorization",
-        //       "Access-Control-Request-Method":
-        //         "GET, POST, DELETE, PUT, OPTIONS",
-        //       Authorization: `Bearer ${token}`,
-        //     },
-        //   }
-        // );
-        // console.log({ fetch: fetched });
-        const file = await JSZipUtils.getBinaryContent(
-          img.replace("onlineimage", "online/image")
-        );
+        const file = await JSZipUtils.getBinaryContent(img);
         console.log(1);
-        zip.file(filename, file, { binary: true });
+        zip.file(fileName, file, { binary: true });
         count++;
         if (count === listSrcTransfered.length) {
           zip.generateAsync({ type: "blob" }).then((content) => {
-            saveAs(content, zipFilename);
+            saveAs(content, zipFileName);
           });
         }
       }
@@ -140,20 +119,21 @@ function SwapFace() {
       toast.error("Error: " + error.message);
       console.log({ err: error.message });
     }
+    NProgress.done();
   };
 
   const getBaseImg = async () => {
     try {
-      const respone = await axios.get(
+      const response = await axios.get(
         `https://api.mangasocial.online/get/list_image/1?album=${album_id}`
       );
 
-      if (!respone) {
+      if (!response) {
         navigate("/swap-face");
         return;
       }
 
-      const images = respone.data.list_sukien_video;
+      const images = response.data.list_sukien_video;
       setTransferedImgSrc(images.find((item) => item.id === Number(id))?.image);
     } catch (error) {
       toast.error("Can't find image");
@@ -167,8 +147,6 @@ function SwapFace() {
 
   return (
     <div>
-      {/* <UrlImageDownloader imageUrl="https://futurelove.online/image/gen_image/5048_864578991738/out/image_5.jpg" /> */}
-
       <label htmlFor={inputId} ref={labelRef} className="d-none" />
       <input
         id={inputId}
@@ -187,7 +165,7 @@ function SwapFace() {
         </div>
 
         {listSrcTransfered?.length > 0 ? (
-          <div className="max-h-[40vh] flex flex-wrap gap-[20px] box-border py-10 rounded-lg overflow-y-scroll">
+          <div className="max-h-[40vh] flex flex-wrap gap-[20px] box-border pr-4 py-10 rounded-lg overflow-y-scroll">
             {listSrcTransfered.map((item, index) => (
               <div
                 key={index}
@@ -195,7 +173,7 @@ function SwapFace() {
                 onClick={() => handleDownloadImage(item)}
               >
                 <img
-                  src={item.replace("onlineimage", "online/image")}
+                  src={item}
                   alt="Image swapped"
                   loading="lazy"
                   className="w-full h-full object-cover"
@@ -204,7 +182,7 @@ function SwapFace() {
             ))}
           </div>
         ) : (
-          <div className="flex flex-col xl:flex-row justify-center items-center bg-white w-full py-10 rounded-lg gap-5 xl:gap-20">
+          <div className="flex flex-col xl:flex-row justify-center items-center bg-white w-full px-10 sm:px-4 py-10 rounded-lg gap-5 xl:gap-20">
             {uploadImgSrc ? (
               <div className="flex flex-col items-center w-[400px] gap-5">
                 <img
@@ -226,7 +204,7 @@ function SwapFace() {
                 onClick={() => labelRef.current?.click()}
               >
                 <img src={UploadImageIcon} alt="Upload" className="w-[50px]" />
-                <span className="text-[22] text-red-400">
+                <span className="text-[22] text-red-400 text-center">
                   Upload image fit PNG, JPG, JPEG, ...
                 </span>
               </div>
