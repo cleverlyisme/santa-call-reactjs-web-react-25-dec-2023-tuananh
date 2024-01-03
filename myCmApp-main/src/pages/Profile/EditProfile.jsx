@@ -6,8 +6,32 @@ import EditIcon from "../../assets/EditIcon.svg";
 import DoneIcon from "../../assets/DoneIcon.svg";
 
 function EditProfile({ account }) {
-  const [editUsername, setEditUsername] = useState(false);
-  const [username, setUsername] = useState(account.user_name);
+  const [fields, setFields] = useState([
+    {
+      id: 1,
+      text: "Name",
+      value: account.user_name || "Unknown",
+      editting: false,
+    },
+    {
+      id: 2,
+      text: "Birthday",
+      value: account.birthday || "Unknown",
+      editting: false,
+    },
+    {
+      id: 3,
+      text: "Gender",
+      value: account.gender || "Unknown",
+      editting: false,
+    },
+    {
+      id: 4,
+      text: "Phone",
+      value: account.phone || "Unknown",
+      editting: false,
+    },
+  ]);
 
   const percent = 66;
 
@@ -17,8 +41,14 @@ function EditProfile({ account }) {
     { index: 3, text: "Verify your email address" },
   ];
 
-  const handleChangeUsername = () => {
-    setEditUsername(!editUsername);
+  const handleUpdateInfor = (item) => {
+    console.log({ fields });
+    setFields(
+      fields.map((field) => {
+        if (field.id === item.id) return { ...field, editting: false };
+        return field;
+      })
+    );
   };
 
   return (
@@ -59,39 +89,59 @@ function EditProfile({ account }) {
       <div className="flex flex-col bg-white px-10 py-6 rounded-lg overflow-hidden gap-2">
         <span className="text-[26px] font-bold text-red-400">Profile</span>
         <span className="text-[16px] text-gray-400">Basic infor...</span>
-        <div className="flex flex-wrap sm:flex-nowrap justify-between items-center gap-3 text-[20px]">
-          <label
-            htmlFor="name"
-            className="w-[fit-content] text-gray-600 order-1"
-          >
-            Name
-          </label>
-          <input
-            type="text"
-            name="name"
-            id="name"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            className="w-full bg-gray-100 rounded-lg px-6 py-4 order-3 sm:order-2"
-            disabled={!editUsername}
-          />
 
+        {fields.map((item) => (
           <div
-            className="flex text-red-400 gap-2 cursor-pointer order-2 sm:order-3 w-[fit-content]"
-            onClick={() =>
-              editUsername
-                ? handleChangeUsername()
-                : setEditUsername(!editUsername)
-            }
+            key={item.text}
+            className="flex flex-wrap sm:flex-nowrap justify-between items-center gap-3 text-[20px]"
           >
-            <img
-              src={editUsername ? DoneIcon : EditIcon}
-              alt="Edit"
-              className="w-[20px] h-auto"
+            <label
+              htmlFor={item.text}
+              className="w-[120px] text-gray-600 order-1"
+            >
+              {item.text}
+            </label>
+            <input
+              type="text"
+              name={item.text}
+              id={item.text}
+              value={item.value}
+              onChange={(e) =>
+                setFields(
+                  fields.map((field) => {
+                    if (field.id === item.id)
+                      return { ...field, value: e.target.value };
+                    return field;
+                  })
+                )
+              }
+              className="w-full bg-gray-100 rounded-lg px-6 py-4 order-3 sm:order-2"
+              disabled={!item.editting}
             />
-            <span>{editUsername ? "Done" : "Edit"}</span>
+
+            <div
+              className="flex text-red-400 gap-2 cursor-pointer order-2 sm:order-3 w-[fit-content]"
+              onClick={() =>
+                item.editting
+                  ? handleUpdateInfor(item)
+                  : setFields(
+                      fields.map((field) => {
+                        if (field.id === item.id)
+                          return { ...field, editting: !field.editting };
+                        return field;
+                      })
+                    )
+              }
+            >
+              <img
+                src={item.editting ? DoneIcon : EditIcon}
+                alt="Edit"
+                className="w-[20px] h-auto"
+              />
+              <span>{item.editting ? "Done" : "Edit"}</span>
+            </div>
           </div>
-        </div>
+        ))}
       </div>
 
       <div className="flex flex-col bg-white px-10 py-6 rounded-lg overflow-hidden gap-2">

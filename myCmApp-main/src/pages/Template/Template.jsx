@@ -83,6 +83,7 @@ function Template() {
       console.log(error);
     }
   };
+
   useEffect(() => {
     getMedias();
   }, [tabItem]);

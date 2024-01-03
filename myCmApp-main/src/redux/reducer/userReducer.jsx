@@ -1,6 +1,9 @@
 // action types
-import { FETCH_USER_LOGIN_SUCCESS } from "../action/userAction";
-import { FETCH_USER_LOGOUT_SUCCESS } from "../action/userAction";
+import {
+  FETCH_USER_LOGIN_SUCCESS,
+  FETCH_USER_LOGOUT_SUCCESS,
+  UPDATE_USER_AVATAR,
+} from "../action/userAction";
 
 // trạng thái ban đầu
 const INITIAL_STATE = {
@@ -8,6 +11,10 @@ const INITIAL_STATE = {
     id_user: "",
     link_avatar: "",
     user_name: "",
+    birthday: "",
+    gender: "",
+    address: "",
+    phone: "",
     ip_register: "",
     device_register: "",
     email: "",
@@ -26,16 +33,7 @@ const userReducer = (state = INITIAL_STATE, action) => {
         ...state,
         account: {
           ...state.account,
-          id_user: action?.payload?.id_user,
-          link_avatar: action?.payload?.link_avatar,
-          user_name: action?.payload?.user_name,
-          ip_register: action?.payload?.ip_register,
-          device_register: action?.payload?.device_register,
-          email: action?.payload?.email,
-          count_sukien: action?.payload?.count_sukien,
-          count_comment: action?.payload?.count_comment,
-          count_view: action?.payload?.count_view,
-          token: action?.payload?.token,
+          ...action?.payload,
         },
         isAuthenticated: true,
       };
@@ -48,6 +46,10 @@ const userReducer = (state = INITIAL_STATE, action) => {
           id_user: "",
           link_avatar: "",
           user_name: "",
+          birthday: "",
+          gender: "",
+          address: "",
+          phone: "",
           ip_register: "",
           device_register: "",
           email: "",
@@ -57,6 +59,15 @@ const userReducer = (state = INITIAL_STATE, action) => {
           token: "",
         },
         isAuthenticated: false,
+      };
+
+    case UPDATE_USER_AVATAR:
+      return {
+        ...state,
+        account: {
+          ...state.account,
+          link_avatar: action?.payload,
+        },
       };
 
     default:

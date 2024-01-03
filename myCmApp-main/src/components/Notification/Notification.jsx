@@ -1,21 +1,10 @@
 import "../Notification/Notification.css";
 import { useSelector } from "react-redux";
-import { useEffect, useState } from "react";
 
 import notificationIcon from "../../assets/NotificationIcon.svg";
 
 function Notification() {
   const avatarUrl = useSelector((state) => state.user.account.link_avatar);
-
-  const [urlImg, setUrlImg] = useState(null);
-
-  const getAvatar = () => {
-    setUrlImg(avatarUrl);
-  };
-
-  useEffect(() => {
-    getAvatar();
-  }, []);
 
   return (
     <div className="absolute top-0 right-0 z-10">
@@ -26,7 +15,7 @@ function Notification() {
         />
         <div className="user-img">
           <img
-            src={urlImg}
+            src={avatarUrl}
             className="cursor-pointer h-[40px] w-[40px] sm:h-[50px] sm:w-[50px]"
           />
         </div>

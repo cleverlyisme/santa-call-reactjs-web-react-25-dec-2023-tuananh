@@ -87,7 +87,7 @@ function SwapFace() {
     try {
       const fileName = img.split("/").pop();
 
-      saveAs(img, fileName);
+      await saveAs(img, fileName);
     } catch (error) {
       toast.error("Error: " + error.message);
       console.log({ err: error.message });
@@ -136,7 +136,8 @@ function SwapFace() {
       const images = response.data.list_sukien_video;
       setTransferedImgSrc(images.find((item) => item.id === Number(id))?.image);
     } catch (error) {
-      toast.error("Can't find image");
+      toast.error("Can't find image to swap");
+      navigate("/swap-face");
       console.log({ err: error.message });
     }
   };

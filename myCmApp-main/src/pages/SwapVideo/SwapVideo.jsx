@@ -44,31 +44,6 @@ function SwapVideo() {
     }
   };
 
-  const getBaseVid = async () => {
-    try {
-      const response = await axios.get(
-        `https://api.mangasocial.online/lovehistory/listvideo/santa/${album_id}?category=3`
-      );
-
-      if (!response) {
-        navigate("/swap-face");
-        return;
-      }
-
-      const videos = response.data.list_sukien_video;
-      setTransferedVideo(
-        videos.find((item) => item.id === Number(id))?.link_video
-      );
-    } catch (error) {
-      toast.error("Can't find image");
-      console.log({ err: error.message });
-    }
-  };
-
-  useEffect(() => {
-    getBaseVid();
-  }, []);
-
   const handleUploadAndSwap = async () => {
     try {
       if (!file) throw new Error("Not found file upload");
@@ -116,7 +91,33 @@ function SwapVideo() {
     NProgress.done();
   };
 
-  const handleDownloadImage = async () => {};
+  const getBaseVid = async () => {
+    try {
+      const response = await axios.get(
+        `https://api.mangasocial.online/lovehistory/listvideo/santa/${album_id}?category=3`
+      );
+
+      if (!response) {
+        navigate("/swap-video");
+        return;
+      }
+
+      const videos = response.data.list_sukien_video;
+      setTransferedVideo(
+        videos.find((item) => item.id === Number(id))?.link_video
+      );
+    } catch (error) {
+      toast.error("Can't find video to swap");
+      navigate("/swap-video");
+      console.log({ err: error.message });
+    }
+  };
+
+  useEffect(() => {
+    getBaseVid();
+  }, []);
+
+  const handleDownloadVideo = async () => {};
 
   return (
     <div>
@@ -143,7 +144,7 @@ function SwapVideo() {
               <div
                 key={index}
                 className="rounded-2xl overflow-hidden cursor-pointer w-[calc(100%/2-10px)] sm:w-[calc(100%/3-(20px*2/3))]  md:w-[calc(100%/4-(20px*3/4))] xl:w-[calc(100%/5-(20px*4/5))]"
-                onClick={() => handleDownloadImage(item)}
+                onClick={() => handleDownloadVideo(item)}
               >
                 <img
                   src={item.replace("onlineimage", "online/image")}
@@ -236,8 +237,11 @@ function SwapVideo() {
             Download
           </button>
 
-          <button className="flex items-center text-red-400 text-[16px] xl:text-[20px] gap-2">
-            <span onClick={() => navigate("/swap-video")}>Go to detail</span>
+          <button
+            className="flex items-center text-red-400 text-[16px] xl:text-[20px] gap-2"
+            onClick={() => navigate("/swap-video")}
+          >
+            <span>Go to detail</span>
             <img src={DirectLeftIcon} alt="Direct" />
           </button>
         </div>

@@ -1,4 +1,4 @@
-const ListItem = ({ type, medias }) => {
+const LibraryList = ({ type, medias, handleView }) => {
   return (
     <div className="flex flex-col rounded-lg p-10 bg-white gap-10 max-h-[70vh] overflow-y-scroll">
       {medias.map((item, index) => (
@@ -8,7 +8,7 @@ const ListItem = ({ type, medias }) => {
         >
           <div className="w-full h-[auto] md:w-[50%] md:h-[50%] rounded-lg overflow-hidden">
             <img
-              src={item.image}
+              src={type === "image" ? item.image : item.thumbnail}
               alt={type}
               className="w-full h-full object-cover"
             />
@@ -28,7 +28,10 @@ const ListItem = ({ type, medias }) => {
             <span className="capitalize text-[16px] text-gray-400 mb-5">
               Total 10 {type}s
             </span>
-            <button className="capitalize bg-red-400 px-2 py-3 w-[100px] xl:w-[150px] rounded-lg text-white text-[14px] xl:text-[16px]">
+            <button
+              className="capitalize bg-red-400 px-2 py-3 w-[100px] xl:w-[150px] rounded-lg text-white text-[14px] xl:text-[16px]"
+              onClick={() => handleView(item)}
+            >
               View
             </button>
           </div>
@@ -38,4 +41,4 @@ const ListItem = ({ type, medias }) => {
   );
 };
 
-export default ListItem;
+export default LibraryList;

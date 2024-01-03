@@ -13,6 +13,7 @@ import SwapVideoDetail from "./pages/SwapDetail/SwapVideoDetail.jsx";
 import SwapFace from "./pages/SwapFace/SwapFace.jsx";
 import SwapVideo from "./pages/SwapVideo/SwapVideo.jsx";
 import Profile from "./pages/Profile/Profile.jsx";
+import Album from "./pages/Profile/Album.jsx";
 
 import { ToastContainer } from "react-toastify";
 import NProgress from "nprogress";
@@ -46,6 +47,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
                 <Route path="/swap-face/:id" element={<SwapFace />} />
                 <Route path="/swap-video/:id" element={<SwapVideo />} />
                 <Route path="/profile" element={<Profile />} />
+                <Route path="/profile/album/:id" element={<Album />} />
               </Route>
             </Route>
 
