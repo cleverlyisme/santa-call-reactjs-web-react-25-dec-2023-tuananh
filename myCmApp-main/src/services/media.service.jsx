@@ -1,3 +1,3 @@
-import { apiAuth, api } from "../utils/axiosConfig";
+import { apiMeta } from "../utils/axiosConfig";
 
-export const getAllAlbums = () => apiAuth.get("/get/list_image/all/1");
+export const getAllAlbums = () => apiMeta.get("/get/list_image/all/1");

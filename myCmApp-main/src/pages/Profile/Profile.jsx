@@ -14,7 +14,7 @@ import BirthdayInforIcon from "../../assets/BirthdayInforIcon.svg";
 import AddressInforIcon from "../../assets/AddressInforIcon.svg";
 import PhoneInforIcon from "../../assets/PhoneInforIcon.svg";
 
-const MAX_FILE_SIZE = 5242880;
+const MAX_FILE_SIZE = 10485760;
 
 function Profile() {
   const dispatch = useDispatch();
@@ -34,7 +34,7 @@ function Profile() {
 
       if (!file) throw new Error("Avatar not found");
 
-      if (file.size > MAX_FILE_SIZE) throw new Error("Max file size is 5MB");
+      if (file.size > MAX_FILE_SIZE) throw new Error("Max file size is 10MB");
 
       const formData = new FormData();
       formData.append("src_img", file);

@@ -10,7 +10,7 @@ import TransferIcon from "../../assets/TransferIcon.svg";
 import UploadImageIcon from "../../assets/UploadImageIcon.svg";
 import DirectLeftIcon from "../../assets/DirectLeftIcon.svg";
 
-const MAX_FILE_SIZE = 20971520;
+const MAX_FILE_SIZE = 10485760;
 
 function SwapVideo() {
   const [file, setFile] = useState(null);
@@ -35,7 +35,7 @@ function SwapVideo() {
       const fileUploaded = e.target.files[0];
 
       if (fileUploaded.size > MAX_FILE_SIZE)
-        throw new Error("Max file size is 20MB");
+        throw new Error("Max file size is 10MB");
 
       setFile(fileUploaded);
       setUploadImgSrc(URL.createObjectURL(fileUploaded));

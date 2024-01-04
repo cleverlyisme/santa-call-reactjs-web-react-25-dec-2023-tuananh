@@ -13,7 +13,7 @@ import UploadImageIcon from "../../assets/UploadImageIcon.svg";
 import TransferIcon from "../../assets/TransferIcon.svg";
 import DirectLeftIcon from "../../assets/DirectLeftIcon.svg";
 
-const MAX_FILE_SIZE = 5242880;
+const MAX_FILE_SIZE = 10485760;
 
 function SwapFace() {
   const [file, setFile] = useState(null);
@@ -37,7 +37,7 @@ function SwapFace() {
       const fileUploaded = e.target.files[0];
 
       if (fileUploaded.size > MAX_FILE_SIZE)
-        throw new Error("Max file size is 5MB");
+        throw new Error("Max file size is 10MB");
 
       setFile(fileUploaded);
       setUploadImgSrc(URL.createObjectURL(fileUploaded));
@@ -55,8 +55,6 @@ function SwapFace() {
 
       NProgress.start();
       const uploadResponse = await uploadImg(formData);
-
-      console.log({ data: uploadResponse });
 
       if (!uploadResponse) throw new Error("Upload image fail");
 

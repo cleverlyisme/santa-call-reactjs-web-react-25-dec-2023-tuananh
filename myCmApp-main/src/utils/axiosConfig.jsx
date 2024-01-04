@@ -1,14 +1,18 @@
 import axios from "axios";
 
-const apiAuth = axios.create({
+const apiImg = axios.create({
+  baseURL: "https://api.imgbb.com",
+});
+
+const apiMeta = axios.create({
   baseURL: "https://metatechvn.store",
 });
 
-const api = axios.create({
+const apiManga = axios.create({
   baseURL: "https://api.mangasocial.online",
 });
 
-[apiAuth, api].map((item) =>
+[apiImg, apiMeta, apiManga].map((item) =>
   item.interceptors.request.use(
     (config) => {
       const token = localStorage.getItem("accessToken");
@@ -21,4 +25,4 @@ const api = axios.create({
   )
 );
 
-export { apiAuth, api };
+export { apiImg, apiMeta, apiManga };
