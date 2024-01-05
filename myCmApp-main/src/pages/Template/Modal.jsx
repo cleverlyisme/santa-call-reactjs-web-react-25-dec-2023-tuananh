@@ -60,7 +60,9 @@ function Modal({
             onClick={(e) => {
               e.stopPropagation();
               navigate(
-                `/swap-${currentMedia.type}/${currentMedia.id}?album_id=1`
+                currentMedia.type === "face"
+                  ? `/swap-face/${currentMedia.id}?album_id=${1}`
+                  : `/swap-video/${currentMedia.id}?album_id=${1}`
               );
             }}
           >

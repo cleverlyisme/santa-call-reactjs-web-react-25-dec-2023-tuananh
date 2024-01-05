@@ -1,6 +1,8 @@
 import { useEffect, useId, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { deviceDetect } from "react-device-detect";
+import { saveAs } from "file-saver";
 import { toast } from "react-toastify";
 import NProgress from "nprogress";
 import axios from "axios";
@@ -13,11 +15,15 @@ import DirectLeftIcon from "../../assets/DirectLeftIcon.svg";
 const MAX_FILE_SIZE = 10485760;
 
 function SwapVideo() {
+  const account = useSelector((state) => state.user.account);
+
+  const [ipAddress, setIpAddress] = useState("");
+  const [deviceRegister, setDeviceRegister] = useState("");
   const [file, setFile] = useState(null);
   const [originalImg, setOriginalImg] = useState(null);
   const [uploadImgSrc, setUploadImgSrc] = useState(null);
+  const [originalVideo, setOriginalVideo] = useState(null);
   const [transferedVideo, setTransferedVideo] = useState(null);
-  const [listVideoTransfered, setListVideoTransfered] = useState([]);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -27,8 +33,6 @@ function SwapVideo() {
   const { id } = useParams();
   const searchParams = new URLSearchParams(location.search);
   const album_id = searchParams.get("album_id");
-
-  const { token } = useSelector((state) => state.user.account);
 
   const handleInputChange = (e) => {
     try {
@@ -53,7 +57,7 @@ function SwapVideo() {
 
       NProgress.start();
       const uploadResponse = await axios.post(
-        "https://metatechvn.store/upload-gensk/200?type=src_nam",
+        "https://metatechvn.store/upload-gensk/200?type=src_vid",
         formData
       );
 
@@ -62,28 +66,25 @@ function SwapVideo() {
       const imgUploadSrc = uploadResponse.data;
 
       const swapResponse = await axios.get(
-        `https://api.mangasocial.online/getdata/swap/listimage?device_them_su_kien=gdgdgf&ip_them_su_kien=dfbdfbdf&id_user=144&list_folder=album_${album_id}`,
-        { headers: { link1: imgUploadSrc, Authorization: `Bearer ${token}` } }
+        `https://lhvn.online/getdata/genvideo?id_video=${originalVideo.id}&device_them_su_kien=${deviceRegister}&ip_them_su_kien=${ipAddress}&id_user=${account.id_user}&image=${imgUploadSrc}&ten_video=${originalVideo.name_categoris}`,
+        { headers: { Authorization: `Bearer ${account.token}` } }
       );
 
-      if (!swapResponse) throw new Error("Swap face fail");
+      if (!swapResponse || swapResponse.status !== 200)
+        throw new Error("Swap face fail");
 
       const data = swapResponse.data;
 
       console.log({ data });
 
       setOriginalImg(
-        data.sukien_2_image.link_src_goc.replace(
+        data.sukien_video.linkimg.replace(
           "/var/www/build_futurelove/",
           "https://futurelove.online/"
         )
       );
-      setTransferedVideo(
-        data.sukien_2_image.link_da_swap.replace("onlineimage", "online/image")
-      );
-      setListVideoTransfered(data["link anh da swap"]);
-      // setBaseImageSrc(data.sukien_2_image.link_src_goc);
-      // setTransferedVideo(data.sukien_2_image.link_da_swap);
+
+      setTransferedVideo(data.sukien_video.link_vid_swap);
     } catch (error) {
       toast.error("Fail: " + error.message);
       console.log({ err: error.message });
@@ -103,9 +104,7 @@ function SwapVideo() {
       }
 
       const videos = response.data.list_sukien_video;
-      setTransferedVideo(
-        videos.find((item) => item.id === Number(id))?.link_video
-      );
+      setOriginalVideo(videos.find((item) => item.id === Number(id)));
     } catch (error) {
       toast.error("Can't find video to swap");
       navigate("/swap-video");
@@ -113,11 +112,44 @@ function SwapVideo() {
     }
   };
 
+  const fetchIpAddress = async () => {
+    const res = await axios.get("https://api.ipify.org", {
+      params: {
+        format: "json",
+      },
+    });
+    setIpAddress(res.data.ip);
+  };
+
+  const fetchDeviceDetect = async () => {
+    const res = await deviceDetect();
+    if (res.isMobile) {
+      setDeviceRegister("Mobile");
+    } else {
+      setDeviceRegister("Desktop");
+    }
+  };
+
   useEffect(() => {
+    NProgress.start();
+
     getBaseVid();
+    fetchIpAddress();
+    fetchDeviceDetect();
+
+    NProgress.done();
   }, []);
 
-  const handleDownloadVideo = async () => {};
+  const handleDownloadVideo = async () => {
+    try {
+      const fileName = transferedVideo.split("/").pop();
+
+      await saveAs(transferedVideo, fileName);
+    } catch (error) {
+      toast.error("Error: " + error.message);
+      console.log({ err: error.message });
+    }
+  };
 
   return (
     <div>
@@ -138,24 +170,7 @@ function SwapVideo() {
           <span>Swap videos</span>
         </div>
 
-        {listVideoTransfered?.length > 0 ? (
-          <div className="max-h-[40vh] flex flex-wrap gap-[20px] box-border py-10 rounded-lg overflow-y-scroll">
-            {listVideoTransfered.map((item, index) => (
-              <div
-                key={index}
-                className="rounded-2xl overflow-hidden cursor-pointer w-[calc(100%/2-10px)] sm:w-[calc(100%/3-(20px*2/3))]  md:w-[calc(100%/4-(20px*3/4))] xl:w-[calc(100%/5-(20px*4/5))]"
-                onClick={() => handleDownloadVideo(item)}
-              >
-                <img
-                  src={item.replace("onlineimage", "online/image")}
-                  alt="Image swapped"
-                  loading="lazy"
-                  className="w-full h-full object-cover"
-                />
-              </div>
-            ))}
-          </div>
-        ) : (
+        {!transferedVideo && (
           <div className="flex flex-col xl:flex-row justify-center items-center bg-white w-full py-10 rounded-lg gap-5 xl:gap-20">
             {uploadImgSrc ? (
               <div className="flex flex-col items-center w-[400px] gap-5">
@@ -222,9 +237,22 @@ function SwapVideo() {
 
           <div className="flex justify-center items-center w-[300px] h-[300px] sm:w-[400px] sm:h-[400px] xl:w-[550px] xl:h-[550px] bg-gray-500 rounded-lg overflow-hidden">
             {transferedVideo ? (
-              <video className="rounded-xl w-full h-full" controls>
+              <video
+                key={transferedVideo}
+                className="rounded-xl w-full h-full"
+                controls
+              >
                 <source src={transferedVideo} type="video/mp4" /> Your browser
                 does not support the video tag.
+              </video>
+            ) : originalVideo ? (
+              <video
+                key={originalVideo.id}
+                className="rounded-xl w-full h-full"
+                controls
+              >
+                <source src={originalVideo.link_video} type="video/mp4" /> Your
+                browser does not support the video tag.
               </video>
             ) : (
               <span className="text-gray-300">No Video</span>
@@ -233,7 +261,10 @@ function SwapVideo() {
         </div>
 
         <div className="flex justify-between items-center mt-10">
-          <button className="bg-red-400 py-3 xl:py-4 w-[150px] xl:w-[200px] rounded-lg text-white text-[16px] xl:text-[20px]">
+          <button
+            className="bg-red-400 py-3 xl:py-4 w-[150px] xl:w-[200px] rounded-lg text-white text-[16px] xl:text-[20px]"
+            onClick={handleDownloadVideo}
+          >
             Download
           </button>
 
