@@ -6,6 +6,7 @@ import "swiper/css";
 import "swiper/css/pagination";
 
 import SearchBar from "../../components/SearchBar/SearchBar";
+import { useSelector } from "react-redux";
 
 function Home() {
   const navigate = useNavigate();
@@ -38,11 +39,11 @@ function Home() {
         "https://metatechvn.store/lovehistory/page/1?id_user=0"
       );
       const videosResponse = await axios.get(
-        "https://metatechvn.store/lovehistory/page/1?id_user=0"
+        "https://metatechvn.store/lovehistory/video/1"
       );
       if (imagesResponse && videosResponse) {
-        setImages(imagesResponse.data?.list_sukien[5].sukien);
-        setVideos(imagesResponse.data?.list_sukien[5].sukien);
+        setImages(imagesResponse.data?.list_sukien[7].sukien);
+        setVideos(videosResponse.data?.list_sukien_video);
       } else {
         console.log("no response");
       }
@@ -53,7 +54,7 @@ function Home() {
   useEffect(() => {
     getSwapEvent();
   }, []);
-
+  
   return (
     <div>
       <SearchBar
@@ -85,13 +86,13 @@ function Home() {
             }}
             breakpoints={breakpoints}
           >
-            {images.map((item, index) => {
+            {images.slice(-4).map((item, index) => {
               return (
                 <SwiperSlide key={index} className="cursor-pointer">
                   <img
-                    src={item.link_nam_goc}
+                    src={item.link_da_swap}
                     alt="Image"
-                    className="max-h-[200px]"
+                    className="h-[200px] object-cover"
                   />
                   <div className="flex flex-col gap-1 px-4 py-2">
                     <span className="truncate text-sm uppercase font-extralight text-green-600">
@@ -136,20 +137,22 @@ function Home() {
           >
             {videos.map((item, index) => (
               <SwiperSlide key={index} className="cursor-pointer">
-                <img
-                  src={item.link_nam_goc}
-                  alt="Video"
-                  className="max-h-[200px]"
-                />
+                <video
+                  type= "video/mp4"
+                  className="w-full h-full"
+                  controls
+                >
+                  <source src={item.sukien_video[0].link_vid_swap}/>
+                </video>
                 <div className="flex flex-col gap-1 px-4 py-2">
                   <span className="truncate text-sm uppercase font-extralight text-green-600">
-                    {item.ten_su_kien}
+                    {item.sukien_video[0].ten_su_kien}
                   </span>
                   <span className="truncate text-base font-normal text-green-600">
-                    {item.noi_dung_su_kien}
+                    {item.sukien_video[0].noi_dung_su_kien}
                   </span>
-                  <span className="text-xs font-extralight text-gray-400">
-                    2:00 min
+                  <span className="truncate text-base font-normal text-green-600">
+                    {item.sukien_video[0].thoigian_taosk}
                   </span>
                   <div className="absolute bottom-4 right-4 w-4 h-4 rounded-full bg-green-800"></div>
                 </div>

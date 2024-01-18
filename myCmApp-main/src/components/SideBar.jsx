@@ -2,7 +2,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import NProgress from "nprogress";
 import { toast } from "react-toastify";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { doLogout } from "../redux/action/userAction";
 
 import SidebarLink from "./SidebarLink";
@@ -38,7 +38,8 @@ function SideBar() {
     }
     NProgress.done();
   }
-
+  const isAuthenticated = useSelector((state) => state.user.isAuthenticated)
+  console.log(isAuthenticated)
   return (
     <>
       <div className="h-[80vh] flex flex-col justify-between bg-white rounded-xl">
@@ -72,7 +73,9 @@ function SideBar() {
             isActive={!!currentPath.includes("/swap-video")}
           />
         </div>
-        <div className="flex flex-col m-5">
+        {
+          isAuthenticated? 
+          <div className="flex flex-col m-5">
           <SidebarLink
             to="/profile"
             activeIcon={ProfileIconActive}
@@ -100,6 +103,18 @@ function SideBar() {
             </div>
           </div>
         </div>
+        :
+        <div className="flex flex-col m-5">
+          <SidebarLink
+            to="/signin"
+            activeIcon={ProfileIconActive}
+            defaultIcon={ProfileIcon}
+            label="Sign In"
+            isActive={!!currentPath.includes("/signin")}
+          />
+        </div>
+        }
+        
       </div>
     </>
   );
