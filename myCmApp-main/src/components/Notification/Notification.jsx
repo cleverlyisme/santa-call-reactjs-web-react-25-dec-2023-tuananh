@@ -5,7 +5,7 @@ import notificationIcon from "../../assets/NotificationIcon.svg";
 
 function Notification() {
   let avatarUrl = useSelector((state) => state.user.account.link_avatar);
-  if(avatarUrl == '') avatarUrl = 'public/blank-profile-picture.png'
+  if(avatarUrl == '') avatarUrl = '/blank-profile-picture.png'
   return (
     <div className="absolute top-0 right-0 z-10">
       <div className="container mr-5 md:mr-10 mt-10">
