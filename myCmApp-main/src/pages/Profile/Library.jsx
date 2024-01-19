@@ -6,6 +6,7 @@ import axios from "axios";
 
 import LibraryList from "./components/LibraryList";
 import VideoModal from "./components/VideoModal";
+import { useSelector } from "react-redux";
 
 function Library() {
   const navigate = useNavigate();
@@ -14,7 +15,7 @@ function Library() {
   const [videos, setVideos] = useState([]);
   const [openVideoModal, setOpenVideoModal] = useState(false);
   const [currentVideo, setCurrentVideo] = useState(null);
-
+  const id = useSelector((state) => state.user.account.id_user)
   const handleViewAlbum = (item) => {
     navigate(`/profile/album/${item.id}`);
   };
@@ -65,10 +66,10 @@ function Library() {
   const getMedias = async () => {
     try {
       const imagesResponse = await axios.get(
-        "https://api.mangasocial.online/get/list_image/1?album=1"
+        `https://api.mangasocial.online/get/id_image/id_user?id_user=${id}`
       );
       const videosResponse = await axios.get(
-        "https://api.mangasocial.online/lovehistory/listvideo/santa/1?category=3"
+        `https://api.mangasocial.online/get/id_video/id_user?id_user=${id}`
       );
       if (imagesResponse && videosResponse) {
         setImages(imagesResponse.data?.list_sukien_video);

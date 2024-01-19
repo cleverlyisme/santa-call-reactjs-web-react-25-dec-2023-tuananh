@@ -49,7 +49,7 @@ function AlbumList() {
         return (
           <div
             key={index}
-            className="relative rounded-2xl relative w-[calc(100%/2-10px)] sm:w-[calc(100%/3-(20px*2/3))]  md:w-[calc(100%/4-(20px*3/4))] xl:w-[calc(100%/5-(20px*4/5))]"
+            className="relative rounded-2xl w-[calc(100%/2-10px)] sm:w-[calc(100%/3-(20px*2/3))]  md:w-[calc(100%/4-(20px*3/4))] xl:w-[calc(100%/5-(20px*4/5))]"
             onMouseLeave={() => setImageHover(null)}
           >
             <img

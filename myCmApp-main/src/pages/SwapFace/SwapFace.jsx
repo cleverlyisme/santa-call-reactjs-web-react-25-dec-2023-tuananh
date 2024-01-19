@@ -6,12 +6,12 @@ import JSZip from "jszip";
 import JSZipUtils from "jszip-utils";
 import { saveAs } from "file-saver";
 import axios from "axios";
-
 import { uploadImg, swapAlbumImages } from "../../services/swap.service";
 import MenuBar from "../../components/MenuBar/MenuBar";
 import UploadImageIcon from "../../assets/UploadImageIcon.svg";
 import TransferIcon from "../../assets/TransferIcon.svg";
 import DirectLeftIcon from "../../assets/DirectLeftIcon.svg";
+import { useSelector } from "react-redux";
 
 const MAX_FILE_SIZE = 10485760;
 
@@ -21,7 +21,6 @@ function SwapFace() {
   const [uploadImgSrc, setUploadImgSrc] = useState(null);
   const [transferedImgSrc, setTransferedImgSrc] = useState(null);
   const [listSrcTransfered, setListSrcTransfered] = useState([]);
-
   const navigate = useNavigate();
   const location = useLocation();
   const labelRef = useRef();
@@ -45,7 +44,7 @@ function SwapFace() {
       toast.error("Error: " + error.message);
     }
   };
-
+  const idUser = useSelector((state)=> state.user.account.id_user)
   const handleUploadAndSwap = async () => {
     try {
       if (!file) throw new Error("File upload not found");
@@ -60,7 +59,7 @@ function SwapFace() {
 
       const imgUploadSrc = uploadResponse.data;
 
-      const swapResponse = await swapAlbumImages(album_id, imgUploadSrc);
+      const swapResponse = await swapAlbumImages(album_id, imgUploadSrc, idUser);
 
       if (!swapResponse) throw new Error("Swap face fail");
 

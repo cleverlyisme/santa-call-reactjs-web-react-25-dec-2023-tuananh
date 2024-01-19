@@ -39,16 +39,14 @@ ReactDOM.createRoot(document.getElementById("root")).render(
           <Routes>
             {/* Route home and others */}
             <Route path="/" element={<App />}>
-              <Route element={<PrivateRoute />}>
                 <Route index element={<Home />} />
                 <Route path="/template" element={<Template />} />
-                <Route path="/swap-face" element={<SwapFaceDetail />} />
-                <Route path="/swap-video" element={<SwapVideoDetail />} />
-                <Route path="/swap-face/:id" element={<SwapFace />} />
-                <Route path="/swap-video/:id" element={<SwapVideo />} />
-                <Route path="/profile" element={<Profile />} />
-                <Route path="/profile/album/:id" element={<Album />} />
-              </Route>
+                <Route path="/swap-face" element={<PrivateRoute><SwapFaceDetail /></PrivateRoute>} />
+                <Route path="/swap-video" element={<PrivateRoute><SwapVideoDetail /></PrivateRoute>} />
+                <Route path="/swap-face/:id" element={<PrivateRoute><SwapFace /></PrivateRoute>} />
+                <Route path="/swap-video/:id" element={<PrivateRoute><SwapVideo /></PrivateRoute>} />
+                <Route path="/profile" element={<PrivateRoute><Profile /></PrivateRoute>} />
+                <Route path="/profile/album/:id" element={<PrivateRoute><Album /></PrivateRoute>} />
             </Route>
 
             {/* Route sign in */}
