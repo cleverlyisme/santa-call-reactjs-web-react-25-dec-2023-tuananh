@@ -32,11 +32,11 @@ function Home() {
   const handleSearch = () => {
     console.log(searchKey);
   };
-
+  
   const getSwapEvent = async () => {
     try {
       const imagesResponse = await axios.get(
-        "https://metatechvn.store/lovehistory/page/1?id_user=0"
+        "https://metatechvn.store/lovehistory/page/3?id_user=0"
       );
       const videosResponse = await axios.get(
         "https://metatechvn.store/lovehistory/video/1"
