@@ -95,20 +95,10 @@ function SignIn() {
                   Sign up
                 </Link>
               </div>
-              <div className="flex justify-center gap-3.5 mt-12 max-md:flex-wrap max-md:mt-10">
-                <button className="border border-[color:var(--5,#E6E8EC)] bg-white p-5 rounded-lg">
-                  <div className="flex items-center justify-between gap-3">
-                    <img loading="lazy" src={GoogleLogo} alt="" />
-                    <div className="text-base font-medium text-gray-900">
-                      Sign in with Google
-                    </div>
-                  </div>
-                </button>
-              </div>
-
+              
               <div className="flex gap-3.5 mt-6 max-md:justify-center">
                 <div className="bg-gray-200 flex lg:w-[230px] h-px my-auto" />
-                <div className="text-lg text-gray-500">or</div>
+                <div className="text-lg text-gray-500"></div>
                 <div className="bg-gray-200 flex lg:w-[230px] h-px my-auto" />
               </div>
 
