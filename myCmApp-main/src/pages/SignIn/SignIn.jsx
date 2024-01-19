@@ -30,6 +30,13 @@ function SignIn() {
       toast.error("Password are required!");
       return;
     }
+      else if (password.length < 6) {
+      toast.warn("Password must have at least 6 characters");
+      return;
+    } else if (password.length > 32) {
+      toast.warn("Password can not more than 32 characters");
+      return;
+    }
 
     const formData = new FormData();
     formData.append("email_or_username", email);

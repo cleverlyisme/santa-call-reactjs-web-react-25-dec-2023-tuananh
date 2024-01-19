@@ -15,12 +15,13 @@ function SignUp() {
   const [userName, setUserName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [cfPassword, setCfPassword] = useState("");
   const [ipAddress, setIpAddress] = useState(null);
   const [deviceRegister, setDeviceRegister] = useState(null);
   const [imageSrc, setImageSrc] = useState(null);
   const [imageName, setImageName] = useState("");
   const [isShowPassword, setIsShowPassword] = useState(false);
-
+  const [isShowCfPassword, setIsShowCfPassword] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -86,6 +87,24 @@ function SignUp() {
     } else if (!password) {
       toast.warn("Password is required");
       return;
+    } else if (password.length < 6) {
+      toast.warn("Password must have at least 6 characters");
+      return;
+    } else if (password.length > 32) {
+      toast.warn("Password can not more than 32 characters");
+      return;
+    } else if (!cfPassword) {
+    toast.warn("Password is required");
+    return;
+    } else if (cfPassword.length < 6) {
+    toast.warn("Password must have at least 6 characters");
+    return;
+    } else if (cfPassword.length > 32) {
+    toast.warn("Password can not more than 32 characters");
+    return;
+    } else if (cfPassword != password) {
+      toast.warn("Confirm password no match!");
+      return;
     } else if (!imageSrc) {
       toast.warn("Image is required");
       return;
@@ -122,7 +141,9 @@ function SignUp() {
   const handleShowPassword = () => {
     setIsShowPassword(!isShowPassword);
   };
-
+  const handleShowCfPassword = () => {
+    setIsShowCfPassword(!isShowCfPassword);
+  };
   return (
     <div className="flex min-h-screen justify-center sm:relative">
       <img
@@ -225,7 +246,48 @@ function SignUp() {
                   )}
                 </div>
               </div>
-
+              <div className="mx-5 mt-6 max-md:mx-2.5">
+                <label className="mb-2 text-base font-medium text-gray-900">
+                  Confirm Password
+                </label>
+                <div className="relative">
+                  {isShowCfPassword == false ? (
+                    <>
+                      <input
+                        type="password"
+                        value={cfPassword}
+                        onChange={(e) => setCfPassword(e.target.value)}
+                        placeholder="**********"
+                        className="w-full py-4 pl-5 pr-12 text-base font-light text-gray-500 border border-gray-400 border-solid rounded-xl"
+                      />
+                      <img
+                        loading="lazy"
+                        src={EyeIcon}
+                        className="absolute translate-y-1/2 right-4 bottom-1/2"
+                        alt=""
+                        onClick={() => handleShowCfPassword()}
+                      />
+                    </>
+                  ) : (
+                    <>
+                      <input
+                        type="text"
+                        value={cfPassword}
+                        onChange={(e) => setCfPassword(e.target.value)}
+                        placeholder="**********"
+                        className="w-full py-4 pl-5 pr-12 text-base font-light text-gray-500 border border-gray-400 border-solid rounded-xl"
+                      />
+                      <img
+                        loading="lazy"
+                        src={EyeIcon}
+                        className="absolute translate-y-1/2 right-4 bottom-1/2"
+                        alt=""
+                        onClick={() => handleShowCfPassword()}
+                      />
+                    </>
+                  )}
+                </div>
+              </div>
               <div className="mx-5 mt-6 max-md:mx-2.5">
                 <label className="mb-2 text-base font-medium text-gray-900">
                   Image
