@@ -118,11 +118,7 @@ function SwapFace() {
 
   const getBaseImg = async () => {
     try {
-      if (!id) {
-        navigate("/swap-face");
-        toast.error("Not found album with id " + id);
-        return;
-      }
+      if (!id) throw new Error();
 
       const response = await axios.get(
         "https://api.mangasocial.online/get/list_album?server=santa"
@@ -134,14 +130,16 @@ function SwapFace() {
       }
 
       const images = response.data.list_sukien_video;
-      console.log({
-        images: images.find((item) => Number(item.id_album) === Number(id)),
-      });
-      setTransferedImgSrc(
-        images.find((item) => item.id_album === Number(id))?.thumpImage
-      );
+
+      const baseImg = images.find(
+        (item) => item.id_album === Number(id)
+      )?.thumpImage;
+
+      if (!baseImg) throw new Error();
+
+      setTransferedImgSrc(baseImg);
     } catch (error) {
-      toast.error("Can't find image to swap");
+      toast.error("Can't find album to swap");
       navigate("/swap-face");
       console.log({ err: error.message });
     }
