@@ -36,7 +36,9 @@ function Template() {
         ? images.find(
             (item, index) =>
               index + 1 ===
-              images.indexOf(images.find((item) => item.id === currentMedia.id))
+              images.indexOf(
+                images.find((item) => item["id "] === currentMedia["id "])
+              )
           )
         : videos.find(
             (item, index) =>
@@ -55,11 +57,12 @@ function Template() {
     const nextMedia =
       tabItem === "images"
         ? images.find((item, index) => {
-            if (currentMedia.id === images[index - 1]?.id) return item;
+            if (currentMedia["id "] === images[index - 1]?.["id "]) return item;
           })
         : videos.find((item, index) => {
             if (currentMedia.id === videos[index - 1]?.id) return item;
           });
+
     setCurrentMedia(
       nextMedia ? { type: currentMedia.type, ...nextMedia } : null
     );
@@ -69,7 +72,7 @@ function Template() {
     try {
       let response = await axios.get(
         tabItem === "images"
-          ? "https://api.mangasocial.online/get/list_image/1?album=1"
+          ? "https://api.mangasocial.online/get/list_album?server=santa"
           : "https://api.mangasocial.online/lovehistory/listvideo/santa/1?category=3"
       );
       if (response) {

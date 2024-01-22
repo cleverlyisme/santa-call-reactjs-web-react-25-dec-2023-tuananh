@@ -1,5 +1,5 @@
 import { useEffect, useId, useRef, useState } from "react";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import NProgress from "nprogress";
 import JSZip from "jszip";
@@ -22,14 +22,11 @@ function SwapFace() {
   const [transferedImgSrc, setTransferedImgSrc] = useState(null);
   const [listSrcTransfered, setListSrcTransfered] = useState([]);
   const navigate = useNavigate();
-  const location = useLocation();
   const labelRef = useRef();
   const inputId = useId();
   const zip = new JSZip();
 
   const { id } = useParams();
-  const searchParams = new URLSearchParams(location.search);
-  const album_id = searchParams.get("album_id");
 
   const handleInputChange = (e) => {
     try {
@@ -44,7 +41,7 @@ function SwapFace() {
       toast.error("Error: " + error.message);
     }
   };
-  const idUser = useSelector((state)=> state.user.account.id_user)
+  const idUser = useSelector((state) => state.user.account.id_user);
   const handleUploadAndSwap = async () => {
     try {
       if (!file) throw new Error("File upload not found");
@@ -59,7 +56,7 @@ function SwapFace() {
 
       const imgUploadSrc = uploadResponse.data;
 
-      const swapResponse = await swapAlbumImages(album_id, imgUploadSrc, idUser);
+      const swapResponse = await swapAlbumImages(id, imgUploadSrc, idUser);
 
       if (!swapResponse) throw new Error("Swap face fail");
 
@@ -121,8 +118,14 @@ function SwapFace() {
 
   const getBaseImg = async () => {
     try {
+      if (!id) {
+        navigate("/swap-face");
+        toast.error("Not found album with id " + id);
+        return;
+      }
+
       const response = await axios.get(
-        `https://api.mangasocial.online/get/list_image/1?album=${album_id}`
+        "https://api.mangasocial.online/get/list_album?server=santa"
       );
 
       if (!response) {
@@ -131,7 +134,12 @@ function SwapFace() {
       }
 
       const images = response.data.list_sukien_video;
-      setTransferedImgSrc(images.find((item) => item.id === Number(id))?.image);
+      console.log({
+        images: images.find((item) => Number(item.id_album) === Number(id)),
+      });
+      setTransferedImgSrc(
+        images.find((item) => item.id_album === Number(id))?.thumpImage
+      );
     } catch (error) {
       toast.error("Can't find image to swap");
       navigate("/swap-face");

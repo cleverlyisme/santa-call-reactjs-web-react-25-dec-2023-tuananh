@@ -16,7 +16,7 @@ function ListTemplates({ tabItem, medias, handleClickTemplate }) {
                 onClick={() => handleClickTemplate(item)}
               >
                 <img
-                  src={tabItem === "images" ? item.image : item.thumbnail}
+                  src={tabItem === "images" ? item.thumpImage : item.thumbnail}
                   alt="Image template"
                   loading="lazy"
                   className="w-full h-full object-cover"

@@ -39,7 +39,7 @@ function Modal({
         >
           {currentMedia?.type === "face" ? (
             <img
-              src={currentMedia.image}
+              src={currentMedia.thumpImage}
               alt="Image"
               className="w-full h-full"
             />
@@ -61,7 +61,7 @@ function Modal({
               e.stopPropagation();
               navigate(
                 currentMedia.type === "face"
-                  ? `/swap-face/${currentMedia.id}?album_id=${1}`
+                  ? `/swap-face/${currentMedia.id_album}`
                   : `/swap-video/${currentMedia.id}?album_id=${1}`
               );
             }}
