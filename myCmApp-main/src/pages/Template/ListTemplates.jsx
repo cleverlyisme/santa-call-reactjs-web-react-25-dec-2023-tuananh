@@ -1,11 +1,7 @@
+
 function ListTemplates({ tabItem, medias, handleClickTemplate }) {
   return (
     <div className="pr-[20px] mt-[30px] max-h-[80vh] overflow-y-scroll">
-      <div className="flex flex-col mb-[20px]">
-        <span className="text-[22px] font-semibold text-red-400">
-          All {tabItem} templates
-        </span>
-      </div>
       <div>
         <div className="flex flex-wrap gap-[20px] box-border">
           {medias.map((item, index) => {
@@ -21,11 +17,6 @@ function ListTemplates({ tabItem, medias, handleClickTemplate }) {
                   loading="lazy"
                   className="w-full h-full object-cover"
                 />
-                {tabItem === "videos" && (
-                  <span className="absolute top-2 left-3 text-white text-xs font-medium">
-                    2:00 min
-                  </span>
-                )}
               </div>
             );
           })}

@@ -8,6 +8,7 @@ import videoIcon from "../../assets/videoIcon.svg";
 import galaryIconActive from "../../assets/galleryIconActive.svg";
 import galaryIcon from "../../assets/galleryIcon.svg";
 import ListTemplates from "./ListTemplates";
+import { Dropdown, DropdownItem } from "flowbite-react";
 
 function Template() {
   const [searchKey, setSearchKey] = useState("");
@@ -17,7 +18,7 @@ function Template() {
   const [hoveredtabItem, setHoveredtabItem] = useState(null);
   const [currentMedia, setCurrentMedia] = useState(null);
   const [openModal, setOpenModal] = useState(false);
-
+  const [currentCate, setCurrenCate] = useState(1)
   const handleSearch = () => {
     console.log(searchKey);
   };
@@ -69,8 +70,8 @@ function Template() {
     try {
       let response = await axios.get(
         tabItem === "images"
-          ? "https://api.mangasocial.online/get/list_image/1?album=1"
-          : "https://api.mangasocial.online/lovehistory/listvideo/santa/1?category=3"
+          ? `https://api.mangasocial.online/get/list_image/1?album=${currentCate}`
+          : `https://api.mangasocial.online/lovehistory/listvideo/santa/1?category=${currentCate}`
       );
       if (response) {
         tabItem === "images"
@@ -86,8 +87,11 @@ function Template() {
 
   useEffect(() => {
     getMedias();
-  }, [tabItem]);
-
+  }, [tabItem,currentCate]);
+  const itemArr = []
+  for(let i = 1; i<= 23;i++) {
+    itemArr.push(<DropdownItem onClick={()=>setCurrenCate(i)} key={i}>Category {i}</DropdownItem>)
+  }
   return (
     <div>
       <SearchBar
@@ -149,6 +153,13 @@ function Template() {
         </div>
       </div>
       <div className="pr-[20px] mt-[30px] max-h-[80vh]">
+      <div className="bg-red-400 w-fit rounded-xl">
+          <Dropdown label={`Category ${currentCate}`} className="text-red-400 max-h-[50vh] overflow-y-scroll">
+            {
+              itemArr
+            }
+          </Dropdown>
+          </div>
         <ListTemplates
           tabItem={tabItem}
           medias={tabItem === "images" ? images : videos}

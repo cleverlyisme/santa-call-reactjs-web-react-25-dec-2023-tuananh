@@ -41,7 +41,7 @@ function Modal({
             <img
               src={currentMedia.image}
               alt="Image"
-              className="w-full h-full"
+              className="w-full h-full object-contain"
             />
           ) : (
             <video
